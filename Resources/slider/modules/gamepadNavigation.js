@@ -7,12 +7,68 @@ import { resolveSliderAssetHref } from "./assetLinks.js";
 
 let activeGamepadIndex = null;
 let animationFrameId = null;
+let lastVolumeTime = 0; // Throttle holding triggers for volume adjust
 let lastInputTime = 0;
 const INPUT_COOLDOWN_MS = 200; // Cooldown between navigation movements (D-pad/Axes)
 const AXIS_THRESHOLD = 0.5; // Threshold for analog stick movement detection
-
-// Keep track of button states to prevent continuous fire on single press
 const previousButtonStates = {};
+let lastDomUpdateTime = 0; // Throttle DOM injections (headers, exit link)
+
+// Add global listener to smoothly scroll focused elements into view on TV mode
+if (typeof document !== 'undefined') {
+  document.addEventListener("focus", (event) => {
+    const focusedEl = event.target;
+    if (focusedEl && focusedEl !== document.body) {
+      const isTv = document.body.classList.contains("layout-tv") || window.location.href.includes("layout=tv");
+      if (isTv) {
+        // Redirecionar foco se o elemento for inválido ou invisível (evita cair no "abismo")
+        const rect = focusedEl.getBoundingClientRect();
+        if (focusedEl.offsetWidth === 0 || focusedEl.offsetHeight === 0 || rect.width === 0 || rect.height === 0 || window.getComputedStyle(focusedEl).display === "none") {
+          console.warn("[Nexus Gamepad] Elemento focado inválido/invisível. Retornando foco para área visível.");
+          focusedEl.blur();
+          const fallback = document.querySelector("#indexPage:not(.hide) .focusable, #homePage:not(.hide) .focusable, .focusable");
+          if (fallback) fallback.focus();
+          return;
+        }
+
+        const isInSlider = !!focusedEl.closest("#monwui-slides-container, .monwui-slide, .monwui-slider-container");
+        if (isInSlider) {
+          // Pinar a tela no topo para evitar que o banner role e saia da tela
+          const containers = document.querySelectorAll(".page, .skinHeader, .skinLayout, .mainDrawer, html, body");
+          containers.forEach(c => {
+            if (c) c.scrollTop = 0;
+          });
+        }
+
+        const isDetailPage = !!focusedEl.closest(".detailPage, #itemDetailPage, .itemDetailPage");
+        if (isDetailPage) {
+          // Scroll standard focus items smoothly using nearest-fit (prevents detail page cut-offs)
+          if (focusedEl.scrollIntoViewIfNeeded) {
+            focusedEl.scrollIntoViewIfNeeded(false);
+          } else {
+            focusedEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+          }
+        }
+      }
+    }
+  }, true);
+}
+
+function injectGamepadPrompts() {
+  if (typeof document === 'undefined' || document.getElementById("jms-gamepad-footer")) return;
+  const footer = document.createElement("div");
+  footer.id = "jms-gamepad-footer";
+  footer.innerHTML = `
+    <div class="jms-footer-content">
+      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-a">A</span> Selecionar</span>
+      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-b">B</span> Voltar</span>
+      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-y">Y</span> Menu</span>
+      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-lb-rb">LB/RB</span> Mudar Banner</span>
+    </div>
+  `;
+  document.body.appendChild(footer);
+  console.log("[Nexus Gamepad] Prompts footer bar injected.");
+}
 
 function loadGamepadCSS() {
   try {
@@ -39,6 +95,32 @@ function initGamepadSupport() {
   }
 
   loadGamepadCSS();
+  
+  // Garantir a injeção do rodapé de atalhos visuais
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", injectGamepadPrompts);
+  } else {
+    injectGamepadPrompts();
+  }
+
+  // Alternar modo controle/mouse dinamicamente com base em atividade física
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+  window.addEventListener("mousemove", (e) => {
+    if (Math.abs(e.screenX - lastMouseX) > 8 || Math.abs(e.screenY - lastMouseY) > 8) {
+      if (document.body.classList.contains("jms-gamepad-mode")) {
+        document.body.classList.remove("jms-gamepad-mode");
+      }
+    }
+    lastMouseX = e.screenX;
+    lastMouseY = e.screenY;
+  });
+
+  window.addEventListener("keydown", () => {
+    if (!document.body.classList.contains("jms-gamepad-mode")) {
+      document.body.classList.add("jms-gamepad-mode");
+    }
+  });
 
   window.addEventListener("gamepadconnected", (e) => {
     console.log("[Nexus Gamepad] Controller connected:", e.gamepad.id);
@@ -52,39 +134,37 @@ function initGamepadSupport() {
       console.log("[Nexus Gamepad] Controller disconnected");
       activeGamepadIndex = null;
       document.body.classList.remove("jms-gamepad-mode");
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
     }
   });
 
-  // Check if a gamepad is already connected at launch
-  const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
-  for (let i = 0; i < gamepads.length; i++) {
-    if (gamepads[i]) {
-      console.log("[Nexus Gamepad] Detected active controller at startup:", gamepads[i].id);
-      activeGamepadIndex = i;
-      document.body.classList.add("jms-gamepad-mode");
-      startPollingLoop();
-      break;
-    }
-  }
+  // Iniciar loop de monitoramento imediatamente para garantir detecção instantânea
+  startPollingLoop();
 }
 
 function startPollingLoop() {
   if (animationFrameId) return;
 
   function poll() {
-    if (activeGamepadIndex === null) return;
-    
     const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
-    const gp = gamepads[activeGamepadIndex];
     
-    if (gp) {
-      handleInputs(gp);
-      animationFrameId = requestAnimationFrame(poll);
+    // Auto-detectar controle ativo
+    let gp = null;
+    for (let i = 0; i < gamepads.length; i++) {
+      if (gamepads[i]) {
+        gp = gamepads[i];
+        activeGamepadIndex = i;
+        break;
+      }
     }
+
+    if (gp) {
+      document.body.classList.add("jms-gamepad-mode");
+      handleInputs(gp);
+    } else {
+      activeGamepadIndex = null;
+    }
+
+    animationFrameId = requestAnimationFrame(poll);
   }
   
   animationFrameId = requestAnimationFrame(poll);
@@ -94,6 +174,41 @@ function handleInputs(gamepad) {
   const now = Date.now();
   const videoElement = document.querySelector("video");
   const isVideoPlaying = !!videoElement;
+
+  // Atualizar injeções DOM periodicamente (uma vez por segundo)
+  if (now - lastDomUpdateTime > 1000) {
+    makeHeadersFocusable();
+    injectSidebarExitLink();
+    lastDomUpdateTime = now;
+  }
+
+  // Redirecionar foco para dentro de diálogos / modais abertos se o foco do controle estiver perdido
+  const activeDialog = document.querySelector("#jms-details-modal-root, .dialog, .actionSheet, .dialogContainer, .popup, .monwui-castmodal");
+  if (activeDialog && window.getComputedStyle(activeDialog).visibility !== "hidden" && window.getComputedStyle(activeDialog).display !== "none") {
+    const activeEl = document.activeElement;
+    if (!activeEl || !activeDialog.contains(activeEl)) {
+      const focusable = activeDialog.querySelector(".jmsdm-btn.primary, .jmsdm-btn, .jmsdm-close, button, a, [focusable], .focusable, .card, input");
+      if (focusable) {
+        focusable.focus();
+        console.log("[Nexus Gamepad] Focus locked into dialog/modal:", focusable);
+      }
+    }
+  }
+
+  // Ajuste contínuo do volume ao segurar os gatilhos LT (6) ou RT (7) no player de vídeo
+  if (isVideoPlaying) {
+    const ltBtn = gamepad.buttons[6];
+    const rtBtn = gamepad.buttons[7];
+    if (ltBtn?.pressed && now - lastVolumeTime > 120) {
+      adjustVolume(videoElement, -0.05);
+      lastVolumeTime = now;
+      document.dispatchEvent(new MouseEvent("mousemove", { bubbles: true }));
+    } else if (rtBtn?.pressed && now - lastVolumeTime > 120) {
+      adjustVolume(videoElement, 0.05);
+      lastVolumeTime = now;
+      document.dispatchEvent(new MouseEvent("mousemove", { bubbles: true }));
+    }
+  }
 
   // 1. Directional Axis Navigation (Analog Sticks) - Habilitado em todos os layouts para garantir navegação universal
   if (now - lastInputTime > INPUT_COOLDOWN_MS && !isVideoPlaying) {
@@ -126,22 +241,24 @@ function handleInputs(gamepad) {
     return isPressed && !wasPressed;
   };
 
-  // Shortcut for exiting the app via gamepad: Guide Button (16) or holding Select (8) + Start (9)
+  // Atalho de Fechamento via Gamepad (Select + Start)
   const selectBtn = gamepad.buttons[8]?.pressed;
   const startBtn = gamepad.buttons[9]?.pressed;
-  if ((selectBtn && startBtn) || gamepad.buttons[16]?.pressed) {
-    console.log("[Nexus Gamepad] Exit shortcut detected. Sending exit command to host.");
+  if (selectBtn && startBtn) {
+    console.log("[Nexus Gamepad] Select + Start shortcut detected. Sending exit command to host.");
     if (window.chrome?.webview) {
       window.chrome.webview.postMessage("exit_app");
     }
   }
-
   // 2. Button Mappings
   gamepad.buttons.forEach((btn, index) => {
     const isPressed = btn.pressed;
 
     if (isButtonPressedOnce(index, isPressed)) {
       document.body.classList.add("jms-gamepad-mode");
+      
+      // Simular movimento do mouse a cada pressionada de botão para despertar os controles na tela no player
+      document.dispatchEvent(new MouseEvent("mousemove", { bubbles: true }));
 
       if (isVideoPlaying) {
         // --- Atalhos de Vídeo (Funcionam em qualquer layout quando assistindo) ---
@@ -159,12 +276,6 @@ function handleInputs(gamepad) {
           case 5: // RB - Seek forward 10s
             seekVideo(videoElement, 10);
             break;
-          case 6: // LT - Volume Down (Volume nativo do player do navegador)
-            adjustVolume(videoElement, -0.05);
-            break;
-          case 7: // RT - Volume Up (Volume nativo do player do navegador)
-            adjustVolume(videoElement, 0.05);
-            break;
         }
       } else {
         // --- Navegação Geral do Menu (Habilitada em todos os layouts para garantir compatibilidade) ---
@@ -172,23 +283,38 @@ function handleInputs(gamepad) {
           case 0: // Botão A - Confirmar / Selecionar (Simula Enter para navegar de forma nativa e robusta)
             simulateKeyEvent("Enter", 13);
             break;
-          case 1: // Botão B - Voltar / Cancelar (Simula Escape para fechar modais/detalhes e Backspace para histórico)
-            // Se houver modal ou diálogo de fechar aberto, clica nele. Caso contrário, simula Escape para fechar popups.
-            const closeBtn = document.querySelector(".btnHeader-back, .btnHeader-back-active, .button-flat[data-action='back'], .btnModalClose, .btnDialogClose, .dialogCloseBtn");
-            if (closeBtn) {
-              console.log("[Nexus Gamepad] B Button clicked close button:", closeBtn);
-              closeBtn.click();
-            } else {
-              console.log("[Nexus Gamepad] B Button simulating Escape/Backspace");
-              simulateKeyEvent("Escape", 27);
-              // Fallback para voltar na história do navegador se necessário
-              setTimeout(() => {
-                const isDialogStillOpen = !!document.querySelector(".btnModalClose, .btnDialogClose, .dialogCloseBtn, .dialog, .actionSheet");
-                if (!isDialogStillOpen) {
-                  // Se não fechou nada com Escape, simula voltar
-                  simulateKeyEvent("Backspace", 8);
-                }
-              }, 50);
+          case 1: // Botão B - Voltar Universal
+            handleUniversalBack();
+            break;
+          case 3: // Botão Y - Abrir Menu Lateral / Hambúrguer
+            const sidebarBtn = document.querySelector(".btnHeader-sidebar, .btnMenu, [data-action='menu'], .headerButton[title='Menu']");
+            if (sidebarBtn) {
+              console.log("[Nexus Gamepad] Y Button clicked sidebar button.");
+              sidebarBtn.click();
+            }
+            break;
+          case 4: // LB - Slide Banner Anterior
+            {
+              const dots = document.querySelectorAll(".monwui-dot, .monwui-poster-dot");
+              if (dots.length > 0) {
+                const activeDot = document.querySelector(".monwui-dot.active, .monwui-poster-dot.active");
+                const activeIndex = activeDot ? Array.from(dots).indexOf(activeDot) : 0;
+                const prevIndex = (activeIndex - 1 + dots.length) % dots.length;
+                dots[prevIndex]?.click();
+                console.log("[Nexus Gamepad] LB: Clicked prev banner slide:", prevIndex);
+              }
+            }
+            break;
+          case 5: // RB - Slide Banner Próximo
+            {
+              const dots = document.querySelectorAll(".monwui-dot, .monwui-poster-dot");
+              if (dots.length > 0) {
+                const activeDot = document.querySelector(".monwui-dot.active, .monwui-poster-dot.active");
+                const activeIndex = activeDot ? Array.from(dots).indexOf(activeDot) : 0;
+                const nextIndex = (activeIndex + 1) % dots.length;
+                dots[nextIndex]?.click();
+                console.log("[Nexus Gamepad] RB: Clicked next banner slide:", nextIndex);
+              }
             }
             break;
           case 9: // Button Start/Menu
@@ -275,6 +401,88 @@ function exitVideoPlayer() {
         history.back();
       }
     }, 100);
+  }
+}
+
+function handleUniversalBack() {
+  console.log("[Nexus Gamepad] B Button triggered universal back");
+  
+  // 1. Fechar modais e diálogos abertos primeiro
+  const activeDialog = document.querySelector(".dialog, .actionSheet, .dialogContainer, .popup, .monwui-castmodal");
+  const dialogClose = document.querySelector(".btnModalClose, .btnDialogClose, .dialogCloseBtn, [data-action='close']");
+  if (activeDialog && dialogClose) {
+    dialogClose.click();
+    return;
+  }
+  if (activeDialog) {
+    simulateKeyEvent("Escape", 27);
+    return;
+  }
+  
+  // 2. Procurar botão de voltar visível no header
+  const backBtn = document.querySelector(".btnHeader-back, .btnHeader-back-active, .button-flat[data-action='back'], .btnHeader-backContainer");
+  if (backBtn && backBtn.offsetParent !== null) {
+    backBtn.click();
+    return;
+  }
+  
+  // 3. Fallback nativo: Voltar no histórico de navegação
+  history.back();
+}
+
+function makeHeadersFocusable() {
+  const isTv = document.body.classList.contains("layout-tv") || window.location.href.includes("layout=tv");
+  if (!isTv) return;
+
+  const headers = document.querySelectorAll(".sectionTitle, .sectionTitleContainer, .monwuiwl-section-title, .dir-row-title, .gh-title, .prc-title");
+  headers.forEach(h => {
+    if (!h.classList.contains("focusable")) {
+      h.classList.add("focusable");
+      h.setAttribute("tabindex", "0");
+      h.style.cursor = "pointer";
+      h.style.outline = "none";
+      
+      h.addEventListener("click", () => {
+        const link = h.querySelector("a, button, .sectionHeaderLink, .nextButton, .seeAllButton");
+        if (link) {
+          link.click();
+        }
+      });
+    }
+  });
+}
+
+function injectSidebarExitLink() {
+  const isTv = document.body.classList.contains("layout-tv") || window.location.href.includes("layout=tv");
+  if (!isTv) return;
+
+  const linksContainer = document.querySelector(".mainDrawer .scrollContainer, .mainDrawer .drawerContent, .mainDrawer .drawer-content");
+  if (linksContainer) {
+    const exitId = "nexus-exit-drawer-link";
+    if (!document.getElementById(exitId)) {
+      const exitLink = document.createElement("a");
+      exitLink.id = exitId;
+      exitLink.className = "navLink focusable drawerLink";
+      exitLink.setAttribute("tabindex", "0");
+      exitLink.style.color = "#ff4d4d";
+      exitLink.style.fontWeight = "bold";
+      
+      exitLink.innerHTML = `
+        <span class="material-icons navLinkIcon" style="color: #ff4d4d !important;">power_settings_new</span>
+        <span class="navLinkText">Sair do Aplicativo</span>
+      `;
+      
+      exitLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("[Nexus Gamepad] Clicked Exit from Drawer. Exiting app...");
+        if (window.chrome?.webview) {
+          window.chrome.webview.postMessage("exit_app");
+        }
+      });
+      
+      linksContainer.appendChild(exitLink);
+      console.log("[Nexus Gamepad] Injected 'Sair do Aplicativo' to sidebar");
+    }
   }
 }
 

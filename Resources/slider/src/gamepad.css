@@ -1,0 +1,105 @@
+/* Estilos visuais para prompts de controle Xbox no Nexus PobreFlix */
+
+/* Exibir prompts apenas quando o controle estiver ativo */
+body.jms-gamepad-mode .jms-gamepad-prompt {
+  display: inline-flex !important;
+}
+
+.jms-gamepad-prompt {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Botão A (Verde) */
+.jms-gamepad-prompt.btn-a {
+  background-color: #107c10;
+  border: 1px solid #1c9e1c;
+}
+
+/* Botão B (Vermelho) */
+.jms-gamepad-prompt.btn-b {
+  background-color: #e81123;
+  border: 1px solid #ff3b4f;
+}
+
+/* Botão X (Azul) */
+.jms-gamepad-prompt.btn-x {
+  background-color: #0078d4;
+  border: 1px solid #1e90ff;
+}
+
+/* Botão Y (Amarelo) */
+.jms-gamepad-prompt.btn-y {
+  background-color: #fff100;
+  color: #000000;
+  border: 1px solid #ffea00;
+  text-shadow: none;
+}
+
+/* Animação suave para quando o controle assume */
+body.jms-gamepad-mode *:focus {
+  outline: 2px solid #7a5cff !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 15px rgba(122, 92, 255, 0.5) !important;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Barra de prompts do controle no rodapé */
+#jms-gamepad-footer {
+  display: none;
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(28, 28, 46, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+body.jms-gamepad-mode #jms-gamepad-footer {
+  display: flex;
+}
+
+.jms-footer-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.jms-footer-item {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.jms-gamepad-prompt.btn-lb-rb {
+  background-color: #4a4a5a;
+  border: 1px solid #66667a;
+  border-radius: 6px;
+  padding: 0 6px;
+  width: auto;
+  font-size: 9px;
+}

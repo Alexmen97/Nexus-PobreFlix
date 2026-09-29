@@ -473,7 +473,7 @@ public class ParentalPinController : ControllerBase
     private Dictionary<string, User> GetKnownUsers()
     {
         var map = new Dictionary<string, User>(StringComparer.OrdinalIgnoreCase);
-        foreach (var user in _users.Users)
+        foreach (var user in _users.GetUsers())
         {
             if (user is null || user.Id == Guid.Empty)
             {

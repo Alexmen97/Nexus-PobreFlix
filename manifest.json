@@ -9,11 +9,19 @@
     "imageUrl": "https://raw.githubusercontent.com/ONeithan/Nexus-PobreFlix/main/img/nexus-pobreflix-logo.png",
     "versions": [
       {
+        "version": "1.0.0.2",
+        "changelog": "v1.0.0.2 - Suporte Oficial ao Jellyfin 12.1 (.NET 10) e Melhorias de Controle\n- Compatibilidade nativa com Jellyfin 12.0 e 12.1 (migração completa para .NET 10).\n- Atualização de compatibilidade da API de usuários (GetUsers).\n- Correção definitiva de erro na instalação do plugin via repositório no Jellyfin 12.1.\n- Mapeamento nativo refinado para controles de Xbox e Steam Deck no player e na interface TV.\n- Foco automático com scrollIntoView suave e bordas de foco roxas sem cortes.",
+        "targetAbi": "12.0.0.0",
+        "sourceUrl": "https://github.com/ONeithan/Nexus-PobreFlix/releases/download/v1.0.0.2/NexusPobreFlix-1.0.0.2.zip",
+        "checksum": "e995cc6f31855ce03eb0cd5018dd0bf6",
+        "timestamp": "2026-09-28T22:30:00Z"
+      },
+      {
         "version": "1.0.0.1",
         "changelog": "v1.0.0.1 - Suporte a Controles e Integração Steam\n- Mapeamento nativo completo de controles de Xbox e Steam Deck na interface e player.\n- Lançador portátil com omissão de IP do servidor para privacidade em distribuições públicas.\n- Persistência de cookies e login único automático usando perfis de navegador isolados.\n- Correção de conflitos visuais e restauração de navegação por controle remoto (D-pad) em Smart TVs.",
-        "targetAbi": "10.11.0.0",
+        "targetAbi": "12.0.0.0",
         "sourceUrl": "https://github.com/ONeithan/Nexus-PobreFlix/releases/download/v1.0.0.1/NexusPobreFlix-1.0.0.1.zip",
-        "checksum": "05e97bd92d30657e432ef71d2cda2e13",
+        "checksum": "c5a64116de6f7543f39113a26b9d4ddc",
         "timestamp": "2026-06-30T21:46:00Z"
       },
       {

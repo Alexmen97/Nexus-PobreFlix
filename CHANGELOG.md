@@ -1,3 +1,26 @@
+# 📦 Nexus PobreFlix Plugin — Build v1.0.0.2 (Jellyfin 12.1 & .NET 10)
+
+Esta build oficial traz a compatibilidade definitiva com a nova geração do Jellyfin 12.0 e 12.1, recompilada nativamente em .NET 10 com correção na instalação via repositório e refinamento do suporte a controles.
+
+---
+
+### ⏱️ Ajustes e Novidades desta Versão (v1.0.0.2):
+* **Suporte Nativo ao Jellyfin 12.1 (.NET 10)**: Migração e retargeting completo para .NET 10 e `Jellyfin.* 12.1.0`. `targetAbi` atualizado para `12.0.0.0`.
+* **Adaptação da API de Usuários**: Correção de chamadas legadas de `_userManager.Users` para `_userManager.GetUsers()`, compatível com a nova arquitetura do Jellyfin 12.
+* **Resolução do Erro de Instalação**: Sincronização e validação dos hashes MD5 no `manifest.json`, permitindo instalação com um clique direto pelo catálogo do Jellyfin.
+* **Refinamento dos Controles (Xbox / Steam Deck)**: Rolagem suave (`scrollIntoView`) ao focar elementos no modo TV, bordas de foco inset arredondadas roxas sem cortes e atalhos com LB/RB no carrossel.
+
+---
+
+### 🛠️ Detalhes do Build:
+- **Arquivo**: `NexusPobreFlix-1.0.0.2.zip`
+- **Versão**: `1.0.0.2`
+- **MD5**: `e995cc6f31855ce03eb0cd5018dd0bf6`
+- **Status**: Pronta para Publicação
+- **Data**: 28/09/2026
+
+---
+
 # 📦 Nexus PobreFlix Plugin — Build v1.0.0.1 (Industrial)
 
 Esta build oficial traz a implementação da integração portátil com a Steam, suporte nativo para Controles de Xbox / Steam Deck e melhorias importantes de privacidade e persistência de sessão.

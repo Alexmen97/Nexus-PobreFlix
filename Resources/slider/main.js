@@ -29,11 +29,13 @@ import { initUserProfileAvatarPicker } from "./modules/avatarPicker.js";
 import { startBackgroundCollectionIndexer, getBackgroundCollectionIndexerStatus } from "./modules/collectionIndexer.js";
 import { initProfileChooser, syncProfileChooserHeaderButtonVisibility } from "./modules/profileChooser.js";
 import { waitForNativeHomeSectionStability, waitForVisibleHomeSections } from "./modules/homeSectionNative.js";
+import { initGamepadSupport } from "./modules/gamepadNavigation.js";
 export { loadCSS } from "./modules/playerStyles.js";
 export { waitForAnyVisible };
 const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 0));
 const cancelIdle = window.cancelIdleCallback || ((id) => clearTimeout(id));
 ensureAutoLanguageSync({ reloadOnChange: true });
+try { initGamepadSupport(); } catch (e) { console.warn("Gamepad initialization failed:", e); }
 const MATERIAL_ICONS_REPAIR_STYLE_ID = "jms-material-icons-utf8-repair";
 const MATERIAL_ICONS_PROBE_CLASS = "_10k";
 const MATERIAL_ICONS_PROBE_CONTENT = "\ue951";
@@ -5519,11 +5521,28 @@ if (window.__totalSlidesPlanned > 0 && window.__slidesCreated >= window.__totalS
     });
 
     const onIndexKeydown = async (e) => {
-      if (!keyboardActive) return;
-      if (e.keyCode === 37) {
+      const isHomeActive = !!document.querySelector("#indexPage:not(.hide), #homePage:not(.hide)");
+      const isSliderArea = keyboardActive || document.activeElement === document.body || document.activeElement?.closest?.("#indexPage, #homePage");
+      const isModalOpen = !!document.querySelector(".dialogContainer, .actionSheetContainer, .detailsModal-open, .jms-modal-active");
+      
+      if (!isHomeActive || isModalOpen) return;
+
+      const activeEl = document.activeElement;
+      const isFocusedOnInteractive = activeEl && (
+        activeEl.tagName === "BUTTON" ||
+        activeEl.tagName === "A" ||
+        activeEl.classList.contains("focusable") ||
+        activeEl.closest(".monwui-main-button-container") ||
+        activeEl.closest(".monwui-btn-container") ||
+        activeEl.closest(".monwui-dot-navigation-container") ||
+        activeEl.closest(".monwui-dot") ||
+        activeEl.closest(".monwui-poster-dot")
+      );
+
+      if (e.keyCode === 33) {
         changeSlide(-1);
         queueHardResetNextFrame();
-      } else if (e.keyCode === 39) {
+      } else if (e.keyCode === 34) {
         changeSlide(1);
         queueHardResetNextFrame();
       } else if (e.keyCode === 13 && focusedSlide) {
