@@ -14,7 +14,7 @@
 
   ![Status](https://img.shields.io/badge/Status-Industrial-purple?style=for-the-badge)
   ![Language](https://img.shields.io/badge/Language-PT--BR%20Nativo-green?style=for-the-badge)
-  ![Version](https://img.shields.io/badge/Version-1.0.0.0-blue?style=for-the-badge)
+  ![Version](https://img.shields.io/badge/Version-1.0.0.2-blue?style=for-the-badge)
   ![Fork Origin](https://img.shields.io/badge/Fork%20de-JMSFusion-orange?style=for-the-badge)
   [![Listed on JellyWatch Hub](https://jellywatch.app/hub/nexus-pobreflix/badge.svg)](https://jellywatch.app/hub/nexus-pobreflix)
 </div>
@@ -96,7 +96,7 @@ https://raw.githubusercontent.com/ONeithan/Nexus-PobreFlix/main/manifest.json
 4. Set the name to `Nexus PobreFlix Repository`, save, and install the plugin from the **Catalog**.
 
 ### Method 2: Manual Installation
-1. Download the ZIP file of the stable version `NexusPobreFlix-1.0.0.0.zip` from the Releases tab.
+1. Download the ZIP file of the stable version `NexusPobreFlix-1.0.0.2.zip` from the Releases tab.
 2. Access your Jellyfin server folder and locate the `plugins` directory (on Windows, it is located at `%ProgramData%/Jellyfin/Server/plugins`).
 3. Create a subfolder named `NexusPobreFlix`.
 4. Extract the DLL and `meta.json` from the zip into this folder.
@@ -161,7 +161,7 @@ Nexus-PobreFlix/
 
   ![Status](https://img.shields.io/badge/Status-Industrial-purple?style=for-the-badge)
   ![Language](https://img.shields.io/badge/Language-PT--BR%20Nativo-green?style=for-the-badge)
-  ![Version](https://img.shields.io/badge/Version-1.0.0.0-blue?style=for-the-badge)
+  ![Version](https://img.shields.io/badge/Version-1.0.0.2-blue?style=for-the-badge)
   ![Fork Origin](https://img.shields.io/badge/Fork%20de-JMSFusion-orange?style=for-the-badge)
   [![Listed on JellyWatch Hub](https://jellywatch.app/hub/nexus-pobreflix/badge.svg)](https://jellywatch.app/hub/nexus-pobreflix)
 </div>
@@ -243,7 +243,7 @@ https://raw.githubusercontent.com/ONeithan/Nexus-PobreFlix/main/manifest.json
 4. Defina o nome como `Repositório Nexus PobreFlix`, salve e faça a instalação do plugin em **Catálogo**.
 
 ### Método 2: Instalação Manual
-1. Baixe o arquivo ZIP da versão estável `NexusPobreFlix-1.0.0.0.zip` na aba de Releases.
+1. Baixe o arquivo ZIP da versão estável `NexusPobreFlix-1.0.0.2.zip` na aba de Releases.
 2. Acesse a pasta do seu servidor Jellyfin e localize o diretório `plugins` (no Windows fica em `%ProgramData%/Jellyfin/Server/plugins`).
 3. Crie uma subpasta chamada `NexusPobreFlix`.
 4. Extraia o conteúdo da DLL e do `meta.json` do zip dentro desta pasta.
