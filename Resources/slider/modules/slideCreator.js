@@ -937,7 +937,7 @@ function openTrailerModal(trailerUrl, trailerName, itemName = '', itemType = '',
   logoContainer.appendChild(logoImg);
 
   const titleElement = document.createElement("h3");
-  const itemDisplayName = itemName ? itemName : 'Bilinmeyen İçerik';
+  const itemDisplayName = itemName ? itemName : 'Conteúdo Desconhecido';
   titleElement.textContent = `${itemDisplayName} - ${config.languageLabels.fragman}`;
   titleElement.style.margin = "0";
   titleElement.style.marginLeft = "15px";
@@ -1056,7 +1056,7 @@ function openTrailerModal(trailerUrl, trailerName, itemName = '', itemType = '',
   const contentType = itemType === 'Movie' ? config.languageLabels.film :
                     itemType === 'Series' ? config.languageLabels.dizi :
                     itemType === 'Episode' ? config.languageLabels.dizi :
-                    "İçerik: ";
+                    "Conteúdo: ";
   itemTitleElement.textContent = `${contentType}: ${itemDisplayName}`;
   itemTitleElement.style.fontWeight = "bold";
   infoContainer.appendChild(itemTitleElement);

@@ -3,13 +3,13 @@
   "description": "Plugin Nexus PobreFlix — Injeta experiência visual premium no Jellyfin com tema roxo, layout Netflix e localização PT-BR completa. Fork de JMSFusion por ONeithan.",
   "name": "Nexus PobreFlix",
   "owner": "ONeithan",
-  "version": "1.0.0.2",
+  "version": "1.0.0.3",
   "status": "Active",
   "autoUpdate": true,
   "targetAbi": "12.0.0.0",
   "sourceUrl": "https://github.com/ONeithan/Nexus-PobreFlix",
-  "imagePathLinux": "/var/lib/jellyfin/plugins/NexusPobreFlix_1.0.0.2/icon.png",
-  "imagePathWindows": "%ProgramData%/Jellyfin/Server/plugins/NexusPobreFlix_1.0.0.2/icon.png",
-  "timestamp": "2026-09-28T22:30:00Z",
+  "imagePathLinux": "/var/lib/jellyfin/plugins/NexusPobreFlix_1.0.0.3/icon.png",
+  "imagePathWindows": "%ProgramData%/Jellyfin/Server/plugins/NexusPobreFlix_1.0.0.3/icon.png",
+  "timestamp": "2026-10-04T01:30:00Z",
   "guid": "d9b7f2a1-3c4e-4f80-b6d2-9e1a5c0f8b34"
 }

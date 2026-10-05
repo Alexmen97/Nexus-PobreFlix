@@ -294,7 +294,7 @@ function posterImageSrc(it, maxWidth = 80, quality = 80) {
 }
 
 function moreItemsLabel(n) {
-  const tail = (config.languageLabels.moreItems || "içerik daha");
+  const tail = (config.languageLabels.moreItems || "mais itens");
   return `${n} ${tail}`;
 }
 
@@ -1160,7 +1160,7 @@ items = [...updates, ...normals];
     ul.innerHTML = `
       <li class="jf-notif-empty">
         <i class="fa-solid fa-box-open" aria-hidden="true"></i>
-        <span>${config.languageLabels.noNewContent || "Yeni içerik yok."}</span>
+        <span>${config.languageLabels.noNewContent || "Nenhum conteúdo novo."}</span>
       </li>`;
     return;
   }
@@ -1361,7 +1361,7 @@ async function renderResume() {
       .filter((it) => Number(it?.UserData?.PlaybackPositionTicks || 0) > 0)
       .slice(0, liveConfig.renderResume || 10);
     if (!items.length) {
-      container.innerHTML = `<div class="jf-empty">${labels.noUnfinishedContent || "Yarim kalan icerik yok."}</div>`;
+      container.innerHTML = `<div class="jf-empty">${labels.noUnfinishedContent || "Nenhum conteúdo em andamento."}</div>`;
       return;
     }
 
@@ -1385,7 +1385,7 @@ async function renderResume() {
       card.innerHTML = `
         ${hasPrimaryImage(it) ? `<img class="poster" src="${escapeHtml(jfUrl(safePosterImageSrc(it, 160, 80)))}" alt="">` : ""}
         <div class="resume-meta">
-          <div class="name">${escapeHtml(it.Name || labels.newContentDefault || "Yeni Icerik")}</div>
+          <div class="name">${escapeHtml(it.Name || labels.newContentDefault || "Novo Conteúdo")}</div>
           ${qualityHtml ? `<div class="quality">${qualityHtml}</div>` : ""}
           <div class="progress"><div class="bar" style="width:${Math.min(pct,100)}%"></div></div>
           <div class="time-left">${formatTimeLeft(remainingSec)} ${labels.kaldi || "kaldi"}</div>
@@ -1682,7 +1682,7 @@ function runToastQueue() {
      <div class="text">
        <b>
          <span class="jf-badge ${status === "removed" ? "jf-badge-removed" : "jf-badge-added"}">${escapeHtml(statusLabel)}</span>
-         ${status === "removed" ? (config.languageLabels.contentChanged || "İçerik değişti") : config.languageLabels.newContentAdded}
+         ${status === "removed" ? (config.languageLabels.contentChanged || "Conteúdo alterado") : config.languageLabels.newContentAdded}
        </b><br>
        ${escapeHtml(displayName)}
      </div>
@@ -2050,7 +2050,7 @@ async function pollActivities({ seedIfFirstRun = false } = {}) {
 
       if (isRemovalActivity(a)) {
         const itemId = a.ItemId || a.Item?.Id;
-        const title = a.Item?.Name || a.Name || a.Type || "İçerik";
+        const title = a.Item?.Name || a.Name || a.Type || "Conteúdo";
         pushNotification({
           itemId,
           title,

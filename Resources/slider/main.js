@@ -931,41 +931,41 @@ function syncCustomSplashProgress(patch = {}) {
   const poolCount = Math.max(0, Number(state.poolCount) || 0);
 
   let progress = 0.06;
-  let stage = splashLabel("customSplashStageLock", "KILIT");
-  let detail = splashLabel("customSplashDetailLock", "Kabuk katmanı sabitleniyor");
+  let stage = splashLabel("customSplashStageLock", "INICIANDO");
+  let detail = splashLabel("customSplashDetailLock", "Inicializando componentes visuais");
 
   if (document.readyState !== "loading") {
     progress = Math.max(progress, 0.12);
-    stage = splashLabel("customSplashStageStructure", "OMURGA");
-    detail = splashLabel("customSplashDetailStructure", "Arayüz omurgası senkrona girdi");
+    stage = splashLabel("customSplashStageStructure", "ESTRUTURA");
+    detail = splashLabel("customSplashDetailStructure", "Interface gráfica sincronizada");
   }
 
   if (state.authReady) {
     progress = Math.max(progress, 0.24);
-    stage = splashLabel("customSplashStageAuth", "YETKI");
-    detail = splashLabel("customSplashDetailAuth", "Oturum anahtarı doğrulandı");
+    stage = splashLabel("customSplashStageAuth", "AUTENTICAÇÃO");
+    detail = splashLabel("customSplashDetailAuth", "Chave de sessão verificada");
   }
 
   if (state.dataPoolReady) {
     progress = Math.max(progress, 0.38);
-    stage = splashLabel("customSplashStagePool", "HAVUZ");
+    stage = splashLabel("customSplashStagePool", "RECURSOS");
     detail = poolCount > 0
-      ? splashLabel("customSplashDetailPool", "{count} içerik havuza alındı", { count: poolCount })
-      : splashLabel("customSplashDetailPoolEmpty", "İçerik havuzu bağlandı");
+      ? splashLabel("customSplashDetailPool", "{count} itens carregados no pool", { count: poolCount })
+      : splashLabel("customSplashDetailPoolEmpty", "Recursos do pool conectados");
   }
 
   if (state.selectionReady) {
     progress = Math.max(progress, 0.48);
-    stage = splashLabel("customSplashStageCompose", "KURGU");
+    stage = splashLabel("customSplashStageCompose", "MONTAGEM");
     detail = totalSlides > 0
-      ? splashLabel("customSplashDetailSelection", "{count} sahne sıraya alındı", { count: totalSlides })
-      : splashLabel("customSplashDetailSelectionEmpty", "Sahne akışı hazırlandı");
+      ? splashLabel("customSplashDetailSelection", "{count} cenas enfileiradas", { count: totalSlides })
+      : splashLabel("customSplashDetailSelectionEmpty", "Fluxo de cenas preparado");
   }
 
   if (totalSlides > 0) {
     progress = Math.max(progress, 0.48 + (createdSlides / totalSlides) * 0.34);
-    stage = splashLabel("customSplashStageRender", "RENDER");
-    detail = splashLabel("customSplashDetailRender", "{current}/{total} katman örülüyor", {
+    stage = splashLabel("customSplashStageRender", "RENDERIZAÇÃO");
+    detail = splashLabel("customSplashDetailRender", "{current}/{total} camadas sendo renderizadas", {
       current: createdSlides,
       total: totalSlides
     });
@@ -973,25 +973,25 @@ function syncCustomSplashProgress(patch = {}) {
 
   if (state.firstSlideReady) {
     progress = Math.max(progress, 0.9);
-    stage = splashLabel("customSplashStageFrame", "KADRAJ");
+    stage = splashLabel("customSplashStageFrame", "ENQUADRAMENTO");
     detail = totalSlides > 0
-      ? splashLabel("customSplashDetailFrame", "{current}/{total} katman canlı", {
+      ? splashLabel("customSplashDetailFrame", "{current}/{total} camadas ativas", {
         current: createdSlides,
         total: totalSlides
       })
-      : splashLabel("customSplashDetailFrameEmpty", "İlk kadraj ışığa çıktı");
+      : splashLabel("customSplashDetailFrameEmpty", "Primeiro enquadramento pronto");
   }
 
   if (state.allSlidesReady) {
     progress = Math.max(progress, 0.96);
-    stage = splashLabel("customSplashStageSurface", "YUZEY");
-    detail = splashLabel("customSplashDetailSurface", "Son katmanlar hizalanıyor");
+    stage = splashLabel("customSplashStageSurface", "FINALIZANDO");
+    detail = splashLabel("customSplashDetailSurface", "Ajustando camadas finais");
   }
 
   if (state.uiReady) {
     progress = 1;
-    stage = splashLabel("customSplashStageReady", "HAZIR");
-    detail = splashLabel("customSplashDetailReady", "MonWui çevrimiçi");
+    stage = splashLabel("customSplashStageReady", "PRONTO");
+    detail = splashLabel("customSplashDetailReady", "Nexus PobreFlix pronto");
   }
 
   return setCustomSplashProgress(progress, {
@@ -1534,10 +1534,10 @@ function hideCustomSplash(reason = "ready") {
     return true;
   }
 
-  const readyStage = splashLabel("customSplashStageReady", "HAZIR");
+  const readyStage = splashLabel("customSplashStageReady", "PRONTO");
   const closingDetail = reason === "timeout"
     ? splashLabel("customSplashDetailForcedExit", "Zorunlu geçiş devreye alınıyor")
-    : splashLabel("customSplashDetailReady", "MonWui çevrimiçi");
+    : splashLabel("customSplashDetailReady", "Nexus PobreFlix pronto");
 
   syncCustomSplashProgress({
     uiReady: true,
@@ -3942,9 +3942,17 @@ function itemHasImageType(item, type) {
 function filterByStrictImageTypes(items, query) {
   const requested = parseImageTypesFromQuery(query);
   if (!requested.length) return items;
-  return items.filter((it) =>
+  const filtered = items.filter((it) =>
     requested.every((t) => itemHasImageType(it, t))
   );
+  if (filtered.length > 0) {
+    return filtered;
+  }
+  // Fallback resiliente: se o filtro estrito (ex: Logo) excluir todos os itens, relaxa para Backdrop/Primary/Thumb
+  const relaxed = items.filter((it) =>
+    itemHasImageType(it, "Backdrop") || itemHasImageType(it, "Primary") || itemHasImageType(it, "Thumb")
+  );
+  return relaxed.length > 0 ? relaxed : items;
 }
 
 function observeDOMChanges() {
@@ -4964,7 +4972,7 @@ export async function slidesInit() {
               playingItems = fetchedItems.slice(0, playingLimit);
             }
           } catch (err) {
-            console.error("İzlenen içerikler alınırken hata:", err);
+            console.error("[Nexus PobreFlix] Erro ao obter conteúdos em reprodução:", err);
           }
         }
 
@@ -4982,7 +4990,49 @@ export async function slidesInit() {
         },
         allowStaleOnError: true,
       });
-        let allItems = data.Items || [];
+        let allItems = (data && Array.isArray(data.Items)) ? data.Items : [];
+        if (!allItems.length) {
+          console.info("[Nexus PobreFlix] Consulta padrão retornou 0 itens. Executando consulta de contingência resiliente...");
+          try {
+            const relaxedUrl = `/Users/${userId}/Items?IncludeItemTypes=Movie,Series,Episode,Video&Recursive=true&sortBy=DateCreated&sortOrder=Descending&Limit=100&EnableTotalRecordCount=false`;
+            const relaxedData = await cachedFetchJson({
+              keyParts: ["itemsPoolRelaxed", userId],
+              url: relaxedUrl,
+              opts: { headers: authHeaders },
+              fetchJson: fetchJsonViaSafeFetch,
+              ttlMs: 15000,
+              entryMeta: { kind: "itemsPoolRelaxed", userId },
+              allowStaleOnError: true,
+            });
+            if (Array.isArray(relaxedData?.Items) && relaxedData.Items.length > 0) {
+              allItems = relaxedData.Items;
+              console.info(`[Nexus PobreFlix] Consulta relaxada recuperou ${allItems.length} itens.`);
+            }
+          } catch (eRelaxed) {
+            console.warn("[Nexus PobreFlix] Erro na consulta relaxada:", eRelaxed);
+          }
+        }
+        if (!allItems.length) {
+          console.info("[Nexus PobreFlix] Tentando consulta de contingência ampla na biblioteca...");
+          try {
+            const fallbackUrl = `/Users/${userId}/Items?Recursive=true&Limit=50&EnableTotalRecordCount=false`;
+            const fallbackData = await cachedFetchJson({
+              keyParts: ["itemsPoolFallbackAll", userId],
+              url: fallbackUrl,
+              opts: { headers: authHeaders },
+              fetchJson: fetchJsonViaSafeFetch,
+              ttlMs: 15000,
+              entryMeta: { kind: "itemsPoolFallbackAll", userId },
+              allowStaleOnError: true,
+            });
+            if (Array.isArray(fallbackData?.Items) && fallbackData.Items.length > 0) {
+              allItems = fallbackData.Items.filter(it => it && it.Type !== "Folder");
+              console.info(`[Nexus PobreFlix] Consulta ampla recuperou ${allItems.length} itens.`);
+            }
+          } catch (eFallback) {
+            console.warn("[Nexus PobreFlix] Erro na consulta ampla:", eFallback);
+          }
+        }
         syncCustomSplashProgress({
           dataPoolReady: true,
           poolCount: Array.isArray(allItems) ? allItems.length : 0
@@ -5010,7 +5060,7 @@ export async function slidesInit() {
                 }
                 return seasonData;
               } catch (error) {
-                console.error("Season detay alınırken hata:", error);
+                console.error("[Nexus PobreFlix] Erro ao obter detalhes da temporada:", error);
                 return item;
               }
             }
@@ -5142,9 +5192,9 @@ export async function slidesInit() {
               const newHistory = Array.from(new Set([...historyBase, ...pickedIds])).slice(-shuffleSeedLimit);
               try {
                 saveShuffleHistory(userId, newHistory);
-                console.debug("[JMS] shuffle history kaydedildi:", userId, newHistory.length);
+                console.debug("[Nexus PobreFlix] Histórico de embaralhamento salvo:", userId, newHistory.length);
               } catch (e) {
-                console.warn("[JMS] shuffle history kaydedilemedi:", e);
+                console.warn("[Nexus PobreFlix] Histórico de embaralhamento não pôde ser salvo:", e);
               }
             }
           } else {
@@ -5191,7 +5241,7 @@ export async function slidesInit() {
           .filter((x) => x);
       }
     } catch (err) {
-      console.error("Slide verisi hazırlanırken hata:", err);
+      console.error("[Nexus PobreFlix] Erro ao preparar dados do slide:", err);
     }
 
     if (!isBootActive()) return;
@@ -5219,7 +5269,7 @@ export async function slidesInit() {
     setHomeSliderRuntimeItems(items);
     try { primeQualityFromItems(items); } catch {}
     if (!items.length) {
-    console.warn("Hiçbir slayt verisi elde edilemedi.");
+    console.warn("[Nexus PobreFlix] Nenhum dado de slide obtido.");
     return;
   }
   window.__totalSlidesPlanned = items.length;

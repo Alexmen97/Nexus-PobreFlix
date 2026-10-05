@@ -401,7 +401,7 @@ function resolveFriendlySessionClient(session) {
     return decodedClient;
   }
 
-  return t("castistemci", "Bilinmeyen istemci");
+  return t("castistemci", "Cliente desconhecido");
 }
 
 function resolveFriendlySessionDeviceName(session) {
@@ -439,7 +439,7 @@ function resolveFriendlySessionDeviceName(session) {
     return "Bu tarayici";
   }
 
-  return platformLabel || browserLabel || t("castcihaz", "Bilinmeyen cihaz");
+  return platformLabel || browserLabel || t("castcihaz", "Dispositivo desconhecido");
 }
 
 function isAudioLikeItem(item) {
@@ -1816,7 +1816,7 @@ function buildTagGroups(device) {
   const groups = [
     { title: t("etiketler", "Türler"), value: device.genres },
     { title: t("ses", "Ses"), value: device.audioLanguages },
-    { title: t("altyazi", "Altyazı"), value: device.subtitleLanguages }
+    { title: t("altyazi", "Legenda"), value: device.subtitleLanguages }
   ];
 
   return groups.filter((group) => String(group.value || "").trim());
@@ -1880,7 +1880,7 @@ function buildDeviceModel(session, itemDetails, access = null) {
     posterUrl,
     backdropUrl,
     placeholderUrl,
-    user: session.UserName || t("belirsizkullanici", "Bilinmeyen kullanıcı"),
+    user: session.UserName || t("belirsizkullanici", "Usuário desconhecido"),
     client: clientLabel,
     deviceName: deviceLabel,
     year: details.ProductionYear || "",
@@ -2252,7 +2252,7 @@ function renderModalShell(content, { className = "", labelledBy = "" } = {}) {
 
 function renderModalMarkup(devices, activeIndex) {
   const activeDevice = devices[activeIndex] || devices[0];
-  const headerTitle = activeDevice?.deviceName || t("castcihaz", "Bilinmeyen cihaz");
+  const headerTitle = activeDevice?.deviceName || t("castcihaz", "Dispositivo desconhecido");
   const subtitleParts = [activeDevice?.title, activeDevice?.client].filter(Boolean).join(" • ");
 
   return `
@@ -2335,7 +2335,7 @@ function updateHeaderForActiveDevice(state) {
   if (!activeDevice) return;
 
   if (state.title) {
-    state.title.textContent = activeDevice.deviceName || t("castcihaz", "Bilinmeyen cihaz");
+    state.title.textContent = activeDevice.deviceName || t("castcihaz", "Dispositivo desconhecido");
   }
 
   if (state.subtitle) {
@@ -3586,7 +3586,7 @@ async function showNowPlayingModal(nowPlayingItem, device) {
     if (!error?.isAbort) {
       console.error("Cast modal hatası:", error);
       closeCastModal();
-      showNotification(`${t("icerikhata", "İçerik hatası")}: ${error.message}`, "error");
+      showNotification(`${t("icerikhata", "Erro de conteúdo")}: ${error.message}`, "error");
     }
   }
 }

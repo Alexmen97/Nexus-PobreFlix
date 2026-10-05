@@ -2924,7 +2924,7 @@ export function createStudioHubsPanel(config, labels) {
 
   const directorRowsMinItemsPerDirector = createNumberInput(
     'directorRowsMinItemsPerDirector',
-    labels?.directorRowsMinItemsPerDirector || 'Minimum Yönetmen İçerik Sayısı',
+    labels?.directorRowsMinItemsPerDirector || 'Número Mínimo de Itens por Diretor',
     Number.isFinite(config.directorRowsMinItemsPerDirector) ? config.directorRowsMinItemsPerDirector : 10,
     1, 20
   );

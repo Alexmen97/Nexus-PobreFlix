@@ -348,13 +348,13 @@ export function createSliderPanel(config, labels) {
 
   const videoPlaybackCheckbox = createCheckbox(
     'enableVideoPlayback',
-    labels.enableVideoPlayback || 'Yerleşik Video Oynatımına İzin Ver',
+    labels.enableVideoPlayback || 'Permitir reprodução de vídeo incorporado',
     config.enableVideoPlayback
   );
 
   const trailerThenVideoCheckbox = createCheckbox(
     'enableTrailerThenVideo',
-    labels.enableTrailerThenVideo || 'Önce Fragman, Yoksa Video',
+    labels.enableTrailerThenVideo || 'Primeiro trailer, senão vídeo',
     config.enableTrailerThenVideo
   );
 
@@ -707,8 +707,8 @@ export function createSliderPanel(config, labels) {
   dotPreviewLabel.style.marginBottom = '6px';
 
   const modes = [
-    { value: 'trailer',     text: labels.preferTrailersInPreviewModal || 'Fragman + Video' },
-    { value: 'video',       text: labels.videoOnly || 'Video' },
+    { value: 'trailer',     text: labels.preferTrailersInPreviewModal || 'Trailer + Vídeo' },
+    { value: 'video',       text: labels.videoOnly || 'Apenas Vídeo' },
     { value: 'onlyTrailer', text: labels.onlyTrailerInPreviewModal || 'Sadece Fragman' },
   ];
 

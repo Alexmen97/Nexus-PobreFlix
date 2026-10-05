@@ -877,6 +877,14 @@ export function changeSlide(direction) {
   const slides = getPeakViewportContainer()?.querySelectorAll(".monwui-slide") || document.querySelectorAll(".monwui-slide");
   if (!slides.length) return;
 
+  if (slides.length === 1) {
+    hardResetProgressBarEl();
+    resetProgressBar();
+    setRemainingTime(SLIDE_DURATION);
+    startSlideTimer();
+    return;
+  }
+
   clearAllTimers();
   stopSlideTimer();
   const currentIndex = getCurrentIndex();
@@ -1530,6 +1538,14 @@ export function displaySlide(index) {
   const activeSlide = slidesContainer.querySelector(".monwui-slide.active");
   const slidesArr = Array.from(slides);
   const len = slidesArr.length;
+
+  if (len === 1) {
+    showSlide(currentSlide);
+    currentSlide.style.opacity = "1";
+    currentSlide.classList.add("active");
+    updateProgressBarPosition();
+    return;
+  }
 
   let prevIndex = activeSlide ? slidesArr.indexOf(activeSlide) : -1;
   if (prevIndex < 0) prevIndex = (index - 1 + len) % len;

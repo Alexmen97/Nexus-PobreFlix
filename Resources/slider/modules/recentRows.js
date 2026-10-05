@@ -951,7 +951,7 @@ function getRecentRowsCardTypeBadge(itemType) {
     case "Folder":
       return { label: ll.folder || labels.folder || "Klasör", icon: "folder" };
     case "Episode":
-      return { label: ll.episode || labels.episode || "Bölüm", icon: "tv" };
+      return { label: ll.episode || labels.episode || "Episódio", icon: "tv" };
     case "Season":
       return { label: ll.season || labels.season || "Sezon", icon: "layerGroup" };
     case "Series":
@@ -3072,7 +3072,7 @@ async function createRowHeroCard(item, serverId, labelText, { showProgress = fal
     isAudio ? (config.languageLabels.track || "Parça") :
     isVideo ? (config.languageLabels.video || "Video") :
     isFolder ? (config.languageLabels.folder || "Klasör") :
-    isEpisode ? (config.languageLabels.episode || "Bölüm") :
+    isEpisode ? (config.languageLabels.episode || "Episódio") :
     isSeries ? (config.languageLabels.dizi || "Dizi") :
     (config.languageLabels.film || "Film");
 
@@ -3665,7 +3665,7 @@ function getBadgeText(type) {
   switch(type) {
     case 'new': return config.languageLabels.badgeNew || "Yeni";
     case 'continue': return config.languageLabels.badgeContinue || "Devam";
-    case 'episode': return config.languageLabels.badgeEpisode || "Bölüm";
+    case 'episode': return config.languageLabels.badgeEpisode || "Episódio";
     case 'series': return config.languageLabels.badgeSeries || "Dizi";
     case 'movie': return config.languageLabels.badgeMovie || "Film";
     default: return config.languageLabels.badgeNew || "Yeni";
@@ -3809,7 +3809,7 @@ async function fillSectionWithItems({
   });
   const resolveEmptyMessage = () => {
     const raw = typeof emptyMessage === "function" ? emptyMessage() : emptyMessage;
-    return String(raw || config.languageLabels.noRecommendations || "Uygun içerik yok").trim();
+    return String(raw || config.languageLabels.noRecommendations || "Nenhum conteúdo disponível").trim();
   };
   const runtimeCfg = getRecentRowsRuntimeConfig();
   const useHero = runtimeCfg.showHeroCards && !hideHero;
@@ -3906,7 +3906,7 @@ async function fillSectionWithItems({
 
     row.innerHTML = "";
     if (!remaining.length) {
-      return renderEmptyState(config.languageLabels.noRecommendations || "Uygun içerik yok");
+      return renderEmptyState(config.languageLabels.noRecommendations || "Nenhum conteúdo disponível");
     }
     const targetCount = Math.min(cardCount, remaining.length);
     let scrollerReady = false;
@@ -4580,7 +4580,7 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
           );
           tmdbEmptyMessage =
             result?.reason === "missingKey"
-              ? (config.languageLabels.tmdbKeyMissing || "TMDb API key girilmemis. Ayarlardan ekleyebilirsin.")
+              ? (config.languageLabels.tmdbKeyMissing || "Chave da API TMDb não informada. Adicione nas configurações.")
               : (config.languageLabels.tmdbTopMoviesEmpty || "Secili film kutuphanelerinde TMDb top rated eslesmesi bulunamadi.");
           const items = Array.isArray(result?.items) ? result.items : [];
           recentRowsTrace("tmdb:fetch:done", {
@@ -4773,9 +4773,9 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
 
     if (!split) {
       pushPlan(recentPlans, () => buildManagedSection({
-        titleText: config.languageLabels.recentEpisodes || "Son eklenen bölümler",
+        titleText: config.languageLabels.recentEpisodes || "Episódios Adicionados Recentemente",
         badgeType: "new",
-        heroLabel: config.languageLabels.recentEpisodesHero || "Son eklenen bölüm",
+        heroLabel: config.languageLabels.recentEpisodesHero || "Episódio Recente",
         cardCount: runtimeCfg.effectiveRecentEpisodesCount,
         showProgress: false,
         hideHero: runtimeCfg.showRecentEpisodesHeroCards === false,
@@ -4797,9 +4797,9 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
       for (const tvLibId of tvIds) {
         const libName = (STATE.tvLibs || []).find(x => x.Id === tvLibId)?.Name || "";
         pushPlan(recentPlans, () => buildManagedSection({
-          titleText: (config.languageLabels.recentEpisodes || "Son eklenen bölümler") + (libName ? ` • ${libName}` : ""),
+          titleText: (config.languageLabels.recentEpisodes || "Episódios Adicionados Recentemente") + (libName ? ` • ${libName}` : ""),
           badgeType: "new",
-          heroLabel: (config.languageLabels.recentEpisodesHero || "Son eklenen bölüm") + (libName ? ` • ${libName}` : ""),
+          heroLabel: (config.languageLabels.recentEpisodesHero || "Episódio Recente") + (libName ? ` • ${libName}` : ""),
           cardCount: runtimeCfg.effectiveRecentEpisodesCount,
           showProgress: false,
           hideHero: runtimeCfg.showRecentEpisodesHeroCards === false,
@@ -4927,9 +4927,9 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
 
   if (runtimeCfg.enableNextUp) {
     pushPlan(nextUpPlans, () => buildManagedSection({
-      titleText: config.languageLabels.nextUpEpisodes || "Sıradaki Bölümler",
+      titleText: config.languageLabels.nextUpEpisodes || "Próximos Episódios",
       badgeType: "episode",
-      heroLabel: config.languageLabels.nextUpEpisodesHero || "Sıradaki bölüm",
+      heroLabel: config.languageLabels.nextUpEpisodesHero || "Próximo Episódio",
       cardCount: runtimeCfg.effectiveNextUpCount,
       showProgress: true,
       hideHero: runtimeCfg.showNextUpHeroCards === false,
@@ -5011,7 +5011,7 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
 
     for (const { libId, libName } of otherDefs) {
       pushPlan(episodePlans, () => buildManagedSection({
-        titleText: `${config.languageLabels.recentEpisodes || "Son eklenen bölümler"} • ${libName}`,
+        titleText: `${config.languageLabels.recentEpisodes || "Episódios Adicionados Recentemente"} • ${libName}`,
         badgeType: "episode",
         heroLabel: `${config.languageLabels.recentEpisodesHero || "Bölüm"} • ${libName}`,
         cardCount: runtimeCfg.effectiveOtherEpisodesCount,

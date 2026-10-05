@@ -2282,7 +2282,7 @@ function kickBindRetries(schedule = [50,150,350,800,1500,2500,4000,6000,8000,120
 
   const isEp = !!isEpisodeContext;
   const iconClass = isEp ? "fa-solid fa-tv" : "fa-solid fa-thumbs-up";
-  const text = isEp ? (labels.unwatchedEpisodes || "İzlemediğiniz Bölümler") : (labels.youMayAlsoLike || "Bunları da beğenebilirsiniz");
+  const text = isEp ? (labels.unwatchedEpisodes || "Episódios Não Assistidos") : (labels.youMayAlsoLike || "Você Também Pode Gostar");
 
   if (headerEl) headerEl.innerHTML = `<i class="${iconClass}"></i> ${text}`;
   if (badgeTextEl) badgeTextEl.textContent = text;

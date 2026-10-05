@@ -16,7 +16,7 @@ export function createSettingsModal() {
     closeBtn.innerHTML = '&times;';
     closeBtn.onclick = () => modal.style.display = 'none';
     const title = document.createElement('h2');
-    title.textContent = labels.ayarlarBaslik || 'GP Oynatıcı Ayarları';
+    title.textContent = labels.ayarlarBaslik || 'Configurações do Player GMMP';
     const form = document.createElement('form');
     const languageDiv = document.createElement('div');
     languageDiv.className = 'setting-item';
@@ -66,7 +66,7 @@ export function createSettingsModal() {
 
     const saveBtn = document.createElement('button');
     saveBtn.type = 'submit';
-    saveBtn.textContent = labels.kaydet || 'Kaydet';
+    saveBtn.textContent = labels.kaydet || 'Salvar';
     form.append(languageDiv, limitDiv, saveBtn);
     form.onsubmit = (e) => {
         e.preventDefault();

@@ -32,7 +32,7 @@ export function createAvatarPanel(config, labels) {
   const initialsElements = [];
   const randomAvatarCheckbox = createCheckbox(
     'randomDicebearAvatar',
-    labels.randomDicebearAvatar || 'Rastgele Avatar Oluştur',
+    labels.randomDicebearAvatar || 'Gerar Avatar Aleatório',
     config.randomDicebearAvatar !== false
   );
   dicebearElements.push(randomAvatarCheckbox);
@@ -150,7 +150,7 @@ export function createAvatarPanel(config, labels) {
     labels.avatarColorMethod || 'Renk Belirleme Yöntemi',
     [
       { value: 'dynamic', text: labels.avatarColorDynamic || 'Dinamik (Kullanıcı ID\'sine göre)' },
-      { value: 'random', text: labels.avatarColorRandom || 'Rastgele (Sabit renk paleti)' },
+      { value: 'random', text: labels.avatarColorRandom || 'Aleatório (Paleta de cores fixa)' },
       { value: 'solid', text: labels.avatarColorSolid || 'Sabit Renk' },
       { value: 'gradient', text: labels.avatarColorGradient || 'Gradyan Renk' }
     ],

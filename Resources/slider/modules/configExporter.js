@@ -27,7 +27,7 @@ export function uploadAndApplyConfig(file) {
     try {
       const configData = JSON.parse(e.target.result);
       applyRawConfig(configData);
-      alert(config.languageLabels.ayarlarBasariylaYuklendi || 'Ayarlar başarıyla yüklendi.');
+      alert(config.languageLabels.ayarlarBasariylaYuklendi || 'Configurações carregadas com sucesso.');
     } catch (err) {
       console.error('Yedek dosyası okunamadı:', err);
       alert(config.languageLabels.gecersizYedekDosyasi || 'Geçersiz yedek dosyası.');
@@ -44,12 +44,12 @@ export function createBackupRestoreButtons() {
   container.className = 'backup-container';
 
   const header = document.createElement('h3');
-  header.textContent = labels.backupRestore || 'Yedekleme ve Geri Yükleme';
+  header.textContent = labels.backupRestore || 'Backup e Restauração';
   container.appendChild(header);
 
   const backupBtn = document.createElement('button');
   backupBtn.className = 'backup-button';
-  backupBtn.textContent = labels.ayarlariYedekle || 'Ayarları Yedekle';
+  backupBtn.textContent = labels.ayarlariYedekle || 'Fazer Backup das Configurações';
   backupBtn.addEventListener('click', (e) => {
     e.preventDefault();
     downloadConfigBackup();

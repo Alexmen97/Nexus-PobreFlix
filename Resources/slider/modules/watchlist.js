@@ -4055,7 +4055,7 @@ function getContainerPreviewLoadingText(mode = "") {
 function getContainerPreviewCountText(mode = "", count = 0) {
   if (!count) return "";
   if (mode === "season") return `${count} ${L("season", "Sezon")}`;
-  if (mode === "episode") return `${count} ${L("episode", "Bölüm")}`;
+  if (mode === "episode") return `${count} ${L("episode", "Episódio")}`;
   return `${count} ${L("watchlistPreviewCollectionItemSuffix", "öğe")}`;
 }
 
@@ -4080,7 +4080,7 @@ function formatEpisodePreviewTitle(item) {
   const prefix = hasSeason && hasEpisode
     ? `S${String(seasonNumber).padStart(2, "0")}E${String(episodeNumber).padStart(2, "0")}`
     : (hasEpisode ? `E${String(episodeNumber).padStart(2, "0")}` : "");
-  const raw = text(item?.Name, L("episode", "Bölüm"));
+  const raw = text(item?.Name, L("episode", "Episódio"));
   return prefix ? `${prefix} • ${raw}` : raw;
 }
 
@@ -4095,7 +4095,7 @@ function getContainerPreviewCardMeta(item, mode = "") {
   if (mode === "season") {
     const episodeCount = Number(item?.ChildCount || 0);
     return [
-      episodeCount > 0 ? `${episodeCount} ${L("episode", "Bölüm")}` : "",
+      episodeCount > 0 ? `${episodeCount} ${L("episode", "Episódio")}` : "",
       playedText
     ].filter(Boolean).join(" • ");
   }
@@ -4161,7 +4161,7 @@ function renderCollectionPreviewCards(items = [], { mode = "collection" } = {}) 
           : 0;
         const fallback = mode === "season"
           ? L("season", "Sezon")
-          : (mode === "episode" ? L("episode", "Bölüm") : text(item?.Type, title.slice(0, 2).toUpperCase() || L("content", "İçerik")));
+          : (mode === "episode" ? L("episode", "Episódio") : text(item?.Type, title.slice(0, 2).toUpperCase() || L("content", "Conteúdo")));
         const isPlayed = isMarkedPlayed(item);
         const playLabel = getPlayActionLabel(item);
 
@@ -4926,7 +4926,7 @@ function renderPreviewPanel(view, details, { loading = false, collectionLoading 
   const collectionRating = hasContainerPreview ? getCollectionAverageRating(collectionItems) : "";
   const posterUrl = buildPosterUrl(item, { width: 360, height: 540 }) || baseItem.posterUrl || "";
   const backdropUrl = buildBackdropUrl(item, { width: 1280, quality: 88 }) || baseItem.backdropUrl || "";
-  const itemType = text(item?.Type || baseItem.itemType, L("content", "İçerik"));
+  const itemType = text(item?.Type || baseItem.itemType, L("content", "Conteúdo"));
   const title = text(item?.Name || baseItem.name, L("untitled", "İsimsiz"));
   const parentLine = text(item?.SeriesName || item?.Album || baseItem.parentName || baseItem.albumArtist);
   const subtitleLine = hasContainerPreview
@@ -5748,7 +5748,7 @@ function renderItemCard(view) {
     ? `★ ${Number(item.communityRating).toFixed(1)}`
     : "";
   const official = text(item.officialRating);
-  const typeLabel = item.itemType || L("content", "İçerik");
+  const typeLabel = item.itemType || L("content", "Conteúdo");
   const playedText = isPlayed ? L("played", "İzlendi") : "";
   const meta = [typeLabel, year, runtime, rating, official, playedText].filter(Boolean).join(" • ");
   const tags = (item.genres || []).slice(0, 3);

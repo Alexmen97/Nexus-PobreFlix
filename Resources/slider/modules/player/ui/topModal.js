@@ -94,7 +94,7 @@ export function showTopTracksModal() {
   const saveToPlaylistBtn = document.createElement('button');
   saveToPlaylistBtn.className = 'top-tracks-action-btn';
   saveToPlaylistBtn.innerHTML = '<i class="fas fa-save"></i>';
-  saveToPlaylistBtn.title = config.languageLabels.saveToPlaylist || 'Listeye kaydet';
+  saveToPlaylistBtn.title = config.languageLabels.saveToPlaylist || 'Salvar na lista';
   saveToPlaylistBtn.disabled = true;
   const onSavePL = () => showSaveToPlaylistModal();
   saveToPlaylistBtn.addEventListener('click', onSavePL);

@@ -356,7 +356,7 @@ export function openGenreExplorer(genre) {
       <div class="ge-content">
         <div class="ge-grid" role="list"></div>
         <div class="ge-empty" style="display:none">
-          ${(getConfig()?.languageLabels?.noResults) || "İçerik bulunamadı"}
+          ${(getConfig()?.languageLabels?.noResults) || "Nenhum conteúdo encontrado"}
         </div>
         <div class="ge-sentinel"></div>
       </div>
@@ -512,7 +512,7 @@ export function openDirectorExplorer(person) {
       <div class="ge-content">
         <div class="ge-grid" role="list"></div>
         <div class="ge-empty" style="display:none">
-          ${(getConfig()?.languageLabels?.noResults) || "İçerik bulunamadı"}
+          ${(getConfig()?.languageLabels?.noResults) || "Nenhum conteúdo encontrado"}
         </div>
         <div class="ge-sentinel"></div>
       </div>
@@ -982,7 +982,7 @@ export function openPersonalExplorer() {
       <div class="ge-content">
         <div class="ge-grid" role="list"></div>
         <div class="ge-empty" style="display:none">
-          ${(getConfig()?.languageLabels?.noResults) || "İçerik bulunamadı"}
+          ${(getConfig()?.languageLabels?.noResults) || "Nenhum conteúdo encontrado"}
         </div>
         <div class="ge-sentinel"></div>
       </div>

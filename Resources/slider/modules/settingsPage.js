@@ -51,8 +51,8 @@ export function createSettingsModal() {
     const config = getConfig();
     const currentLang = config.defaultLanguage || getDefaultLanguage();
     const labels = getLanguageLabels(currentLang) || {};
-    const monwuiTabLabel = labels.sliderSettings || 'MonWUI Ayarları';
-    const sliderTabLabel = labels.sliderPageLabel || 'Slider Ayarları';
+    const monwuiTabLabel = labels.sliderSettings || 'Configurações MonWUI';
+    const sliderTabLabel = labels.sliderPageLabel || 'Configurações do Slider';
 
     const modal = document.createElement('div');
     modal.id = 'settings-modal';
@@ -110,7 +110,7 @@ export function createSettingsModal() {
         localStorage.setItem("jms:settingsTargetProfile", select.value);
         showNotification(
           `<i class="fas fa-layer-group" style="margin-right:8px;"></i> ${
-            labels?.profileChanged || "Profil seçildi. Kaydettiğinde bu profile publish edilecek."
+            labels?.profileChanged || "Perfil selecionado. Ao salvar, as configurações serão publicadas neste perfil."
           }`,
           2500,
           "info"
@@ -134,7 +134,7 @@ export function createSettingsModal() {
       forcedHint.style.margin = '0 0 12px';
       forcedHint.textContent =
         labels?.forceGlobalAdminHint ||
-        'Genel Kullanıcı Ayarlarını Zorla aktif. Kaydet/Uygula seçili ayar profilini tum kullanicilar icin global publish eder.';
+        'Forçar Configurações Globais ativo. Salvar/Aplicar publicará o perfil selecionado para todos os usuários.';
       modalContent.appendChild(forcedHint);
     }
 
@@ -146,24 +146,24 @@ export function createSettingsModal() {
 
     const mainTab = createTab('monwui', 'fa-sliders', monwuiTabLabel, true);
     const sliderTab = createTab('slider', 'fa-gear', sliderTabLabel, false);
-    const queryTab = createTab('query', 'fa-code', labels.queryStringInput || 'Api Sorgu Ayarları');
-    const musicTab = createTab('music', 'fa-music', labels.gmmpSettings || 'GMMP Ayarları');
-    const studioTab = createTab('studio', 'fa-building', labels.studioHubsSettings || 'Stüdyo Koleksiyonları Ayarları');
-    const profileChooserTab = createTab('profile-chooser', 'fa-user-group', labels.profileChooserHeader || 'Kim İzliyor Ayarları');
-    const pauseTab = createTab('pause', 'fa-pause', labels.pauseSettings || 'Duraklatma Ekranı Ayarları');
-    const watchlistSettingsTab = createTab('watchlist-settings', 'fa-bookmark', labels.watchlistSettingsTab || 'İzleme Listesi Ayarları');
-    const hoverTab = createTab('hover', 'fa-play-circle', labels.hoverTrailer || 'HoverTrailer Ayarları');
+    const queryTab = createTab('query', 'fa-code', labels.queryStringInput || 'Configurações de Consulta da API');
+    const musicTab = createTab('music', 'fa-music', labels.gmmpSettings || 'Configurações do GMMP');
+    const studioTab = createTab('studio', 'fa-building', labels.studioHubsSettings || 'Configurações de Coleções de Estúdio');
+    const profileChooserTab = createTab('profile-chooser', 'fa-user-group', labels.profileChooserHeader || 'Configurações de Quem Está Assistindo');
+    const pauseTab = createTab('pause', 'fa-pause', labels.pauseSettings || 'Configurações da Tela de Pausa');
+    const watchlistSettingsTab = createTab('watchlist-settings', 'fa-bookmark', labels.watchlistSettingsTab || 'Configurações da Lista de Reprodução');
+    const hoverTab = createTab('hover', 'fa-play-circle', labels.hoverTrailer || 'Configurações de Prévia ao Passar o Mouse');
     const cinemaPreRollTab = createTab('cinema-preroll', 'fa-clapperboard', labels.cinemaPreRollTab || 'Sinema Ön Gösterimleri');
-    const trailersTab = createTab('trailers', 'fa-video', labels.trailersHeader || 'Fragman İndirme / NFO Ayarları');
-    const notificationsTab = createTab('notifications', 'fa-bell', labels.notificationsSettings || 'Bildirim Ayarları');
-    const detailsModalTab = createTab('details-modal', 'fa-circle-info', labels.detailsModalSettingsTab || 'Detaylar Modülü Ayarları');
-    const avatarTab = createTab('avatar', 'fa-user', labels.avatarCreateInput || 'Avatar Ayarları');
+    const trailersTab = createTab('trailers', 'fa-video', labels.trailersHeader || 'Configurações de Download de Trailers / NFO');
+    const notificationsTab = createTab('notifications', 'fa-bell', labels.notificationsSettings || 'Configurações de Notificações');
+    const detailsModalTab = createTab('details-modal', 'fa-circle-info', labels.detailsModalSettingsTab || 'Configurações do Módulo de Detalhes');
+    const avatarTab = createTab('avatar', 'fa-user', labels.avatarCreateInput || 'Configurações de Avatar');
     const parentalPinTab = config?.currentUserIsAdmin
-      ? createTab('parental-pin', 'fa-key', labels.parentalPinTab || 'PIN Kontrolü Ayarları')
+      ? createTab('parental-pin', 'fa-key', labels.parentalPinTab || 'Configurações de Controle por PIN')
       : null;
-    const positionTab = createTab('position', 'fa-arrows-up-down-left-right', labels.positionSettings || 'Konumlandırma Ayarları');
+    const positionTab = createTab('position', 'fa-arrows-up-down-left-right', labels.positionSettings || 'Configurações de Posicionamento');
     const dbManagementTab = createTab('db-management', 'fa-database', labels.dbManagementTab || 'DB Yönetimi');
-    const exporterTab = createTab('exporter', 'fa-download', labels.backupRestore || 'Yedekle ve Geri Yükle');
+    const exporterTab = createTab('exporter', 'fa-download', labels.backupRestore || 'Backup e Restauração');
     const aboutTab = createTab('about', 'fa-circle-info', labels.aboutHeader || 'Hakkında');
 
     const tabs = [
@@ -217,15 +217,15 @@ export function createSettingsModal() {
 
     [
         { panel: infoPanel, title: labels.infoHeader || 'Tür, Yıl ve Ülke Bilgileri' },
-        { panel: buttonsPanel, title: labels.buttons || 'Buton Ayarları' },
-        { panel: logoTitlePanel, title: labels.logoOrTitleHeader || 'Logo / Başlık Ayarları' },
-        { panel: descriptionPanel, title: labels.descriptionsHeader || 'Açıklama Ayarları' },
-        { panel: providerPanel, title: labels.providerHeader || 'Dış Bağlantılar / Sağlayıcı Ayarları' },
-        { panel: languagePanel, title: labels.languageInfoHeader || 'Ses ve Altyazı Bilgileri' },
-        { panel: statusRatingPanel, title: labels.statusRatingInfo || 'Durum, Puanlama ve Kalite Rozeti Ayarları' },
-        { panel: actorPanel, title: labels.actorInfo || 'Aktör Gösterim Ayarları' },
-        { panel: directorPanel, title: labels.directorWriter || 'Yönetmen ve Yazar Ayarları' },
-        { panel: animationPanel, title: labels.animationSettings || 'Animasyon Ayarları' }
+        { panel: buttonsPanel, title: labels.buttons || 'Configurações de Botões' },
+        { panel: logoTitlePanel, title: labels.logoOrTitleHeader || 'Configurações de Logo / Título' },
+        { panel: descriptionPanel, title: labels.descriptionsHeader || 'Configurações de Sinopse' },
+        { panel: providerPanel, title: labels.providerHeader || 'Configurações de Provedores e Links Externos' },
+        { panel: languagePanel, title: labels.languageInfoHeader || 'Informações de Áudio e Legendas' },
+        { panel: statusRatingPanel, title: labels.statusRatingInfo || 'Configurações de Status, Avaliação e Qualidade' },
+        { panel: actorPanel, title: labels.actorInfo || 'Configurações de Elenco' },
+        { panel: directorPanel, title: labels.directorWriter || 'Configurações de Diretor e Roteirista' },
+        { panel: animationPanel, title: labels.animationSettings || 'Configurações de Animação' }
     ].forEach(({ panel, title }) => {
         appendMergedPanelToSlider(sliderPanel, panel, title);
     });
@@ -274,7 +274,7 @@ export function createSettingsModal() {
 
     const saveBtn = document.createElement('button');
     saveBtn.type = 'submit';
-    saveBtn.textContent = labels.saveSettings || 'Kaydet';
+    saveBtn.textContent = labels.saveSettings || 'Salvar';
 
     const applyBtn = document.createElement('button');
     applyBtn.type = 'button';
@@ -286,7 +286,7 @@ export function createSettingsModal() {
     resetBtn.className = 'reset-btn';
     resetBtn.onclick = () => {
         createConfirmationModal(
-            labels.resetConfirm || 'Tüm ayarları varsayılan değerlere sıfırlamak istediğinize emin misiniz?',
+            labels.resetConfirm || 'Tem certeza de que deseja redefinir todas as configurações para os valores padrão?',
             resetAllSettings,
             labels
         );
@@ -366,7 +366,7 @@ export function createSettingsModal() {
         const errText =
           String(err?.message || '').trim() ||
           labels?.settingsSaveFailed ||
-          'Ayarlar kaydedilemedi.';
+          'Não foi possível salvar as configurações.';
         showNotification(
           `<i class="fas fa-triangle-exclamation" style="margin-right: 8px;"></i> ${errText}`,
           4200,
@@ -856,7 +856,7 @@ function createLanguagePanel(config, labels) {
     panel.id = 'language-panel';
     panel.className = 'settings-panel';
 
-    const section = createSection(labels.languageInfoHeader || 'Ses ve Altyazı Bilgileri');
+    const section = createSection(labels.languageInfoHeader || 'Informações de Áudio e Legendas');
     section.appendChild(createCheckbox('showLanguageInfo', labels.languageInfo || 'Ses ve Altyazı Bilgilerini Göster', config.showLanguageInfo));
 
     const description = document.createElement('div');
@@ -1055,7 +1055,7 @@ function createSettingsHotkeyField(labels, currentValue) {
 
     const label = document.createElement('label');
     label.htmlFor = 'settingsHotkey';
-    label.textContent = labels.settingsHotkeyLabel || 'Ayarlar kısayol tuşu';
+    label.textContent = labels.settingsHotkeyLabel || 'Tecla de atalho das configurações';
 
     const controls = document.createElement('div');
     controls.style.display = 'flex';
@@ -1126,9 +1126,9 @@ function createMainSettingsPanel(labels, panels) {
     panel.className = 'settings-panel';
 
     const config = getConfig();
-    const basicsSection = createSection(labels.mainCoreSettings || 'Temel Ayarlar');
+    const basicsSection = createSection(labels.mainCoreSettings || 'Configurações Básicas');
     const enablesSection = createSection(labels.mainEnableSettings || 'Ana Etkinleştirmeler');
-    const hotkeySection = createSection(labels.settingsHotkeySection || 'Ayarlar Kısayolu');
+    const hotkeySection = createSection(labels.settingsHotkeySection || 'Atalho das Configurações');
 
     [
         extractContainerBySelect(panels.sliderPanel, 'defaultLanguage', '.setting-item'),
@@ -1148,7 +1148,7 @@ function createMainSettingsPanel(labels, panels) {
 
     const pauseFeaturesMaster = createCheckbox(
         'enablePauseFeaturesMaster',
-        labels.enablePauseFeaturesMaster || 'Duraklatma ekranı özelliklerini etkinleştir',
+        labels.enablePauseFeaturesMaster || 'Ativar recursos da tela de pausa',
         config.enablePauseFeaturesMaster !== false
     );
     enablesSection.appendChild(pauseFeaturesMaster);
@@ -1173,7 +1173,7 @@ function createMainSettingsPanel(labels, panels) {
 
     enablesSection.appendChild(createCheckbox(
         'enableDetailsModalModule',
-        labels.enableDetailsModalModule || 'Detaylar modülünü etkinleştir',
+        labels.enableDetailsModalModule || 'Ativar módulo de detalhes',
         config.enableDetailsModalModule !== false
     ));
 
@@ -1204,7 +1204,7 @@ function createMainSettingsPanel(labels, panels) {
         castAdminHint.className = 'description-text';
         castAdminHint.textContent =
             labels.castModuleAdminOnlySettings ||
-            'Cast modülü ve kullanıcı görünürlüğü ayarları sadece yöneticiler tarafından değiştirilebilir.';
+            'As configurações do módulo Cast e de visibilidade de usuários só podem ser alteradas por administradores.';
         enablesSection.appendChild(castAdminHint);
     }
 
@@ -1821,7 +1821,7 @@ async function applyGlobalSettingsLockUI({
 
   const lockMsg =
     labels?.forceGlobalLockedTitle ||
-    "Bu sunucuda ayarlar yönetici tarafından global olarak zorlandı.";
+    "Neste servidor, as configurações foram impostas globalmente pelo administrador.";
 
   [saveBtn, applyBtn, resetBtn].forEach(btn => {
     if (!btn) return;

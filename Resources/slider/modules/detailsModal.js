@@ -774,7 +774,7 @@ async function loadLocalCommentsInto(root, displayItem, { signal } = {}) {
           : (config.languageLabels.localCommentsSubmit || "Yorum Yap"));
     const deleteBusyId = state.deletingCommentId;
     const hint = editingComment
-      ? (config.languageLabels.localCommentsEditHint || "Yorumunu düzenliyorsun. Kaydettiğinde mevcut yorumun güncellenir.")
+      ? (config.languageLabels.localCommentsEditHint || "Você está editando seu comentário. Ao salvar, seu comentário será atualizado.")
       : "";
     const canSubmit = !!state.draft.trim() && !state.saving && state.draft.length <= LOCAL_COMMENT_MAX_LENGTH;
 
@@ -788,7 +788,7 @@ async function loadLocalCommentsInto(root, displayItem, { signal } = {}) {
           class="jmsdm-comments-textarea"
           rows="4"
           maxlength="${LOCAL_COMMENT_MAX_LENGTH}"
-          placeholder="${escapeHtml(config.languageLabels.localCommentsPlaceholder || "Bu içerik hakkında ne düşünüyorsun?")}"
+          placeholder="${escapeHtml(config.languageLabels.localCommentsPlaceholder || "O que você achou deste conteúdo?")}"
           ${state.saving ? "disabled" : ""}
         >${escapeHtml(state.draft)}</textarea>
 
@@ -3835,7 +3835,7 @@ export async function openDetailsModal({ itemId, item: preloadedItem = null, det
     : [
         { label: label("watchlistPreviewVideoTrack", "Video"), value: videoQuality },
         { label: label("watchlistPreviewAudioCount", "Ses"), value: audioTracks.length ? `${audioTracks.length} ${label("watchlistPreviewTrackSuffix", "parça")}` : "" },
-        { label: label("watchlistPreviewSubtitleCount", "Altyazı"), value: subtitleTracks.length ? `${subtitleTracks.length} ${label("watchlistPreviewTrackSuffix", "parça")}` : "" }
+        { label: label("watchlistPreviewSubtitleCount", "Legenda"), value: subtitleTracks.length ? `${subtitleTracks.length} ${label("watchlistPreviewTrackSuffix", "parça")}` : "" }
       ];
   const creditFields = isBoxSet || isTrailerItem
     ? []
@@ -3904,7 +3904,7 @@ wireMiniCardDelegation();
           const s = ep.ParentIndexNumber ?? "";
           const e = ep.IndexNumber ?? "";
           const num = (s !== "" && e !== "") ? `S${s} · E${e}` : String((page - 1) * perPage + i + 1);
-          const epName = safeText(ep.Name, config.languageLabels.episode || "Bölüm");
+          const epName = safeText(ep.Name, config.languageLabels.episode || "Episódio");
           const img = getEpisodeImageUrlMini(ep, { maxWidth: 260 });
           const epOver = safeText(ep.Overview, "");
           return `
@@ -3965,7 +3965,7 @@ wireMiniCardDelegation();
     }
 
     if (isMovie) {
-      const similarTitle = safeText(recos.title, config.languageLabels.similarItems || "Benzer İçerikler");
+      const similarTitle = safeText(recos.title, config.languageLabels.similarItems || "Conteúdos Semelhantes");
 
       const collectionLabel =
         config.languageLabels.collectionTitle ||
@@ -4056,7 +4056,7 @@ wireMiniCardDelegation();
 
     const showSeasonUi = seasons.length > 0;
     return `
-      <div class="jmsdm-section-title">${seriesId ? (config.languageLabels.episodesTitle || "Bölümler") : (config.languageLabels.infoTitle || "Bilgi")}</div>
+      <div class="jmsdm-section-title">${seriesId ? (config.languageLabels.episodesTitle || "Episódios") : (config.languageLabels.infoTitle || "Bilgi")}</div>
 
       ${showSeasonUi ? `
         <div class="jmsdm-toolbar">
@@ -4162,7 +4162,7 @@ wireMiniCardDelegation();
                   ${renderPreviewStats(stats)}
                   ${renderPreviewFieldSection(label("watchlistPreviewMediaSection", "Medya Özeti"), mediaFields)}
                   ${renderPreviewListSection(label("watchlistPreviewAudioTracks", "Ses Parçaları"), audioTracks)}
-                  ${renderPreviewListSection(label("watchlistPreviewSubtitleTracks", "Altyazılar"), subtitleTracks)}
+                  ${renderPreviewListSection(label("watchlistPreviewSubtitleTracks", "Legendas"), subtitleTracks)}
                   ${renderPreviewFieldSection(label("watchlistPreviewCredits", "Künye"), creditFields)}
                   ${renderPreviewTagSection(label("genre", "Tür"), genres)}
                   ${renderPreviewStudioSection(label("watchlistPreviewStudios", "Stüdyolar"), studioEntries)}
@@ -4463,7 +4463,7 @@ wireMiniCardDelegation();
         notifyDetailsModalPlay(epId);
       } catch (err) {
         console.error("Episode play error:", err);
-        window.showMessage?.(config.languageLabels.episodePlayFailed || "Bölüm oynatılamadı", "error");
+        window.showMessage?.(config.languageLabels.episodePlayFailed || "Não foi possível reproduzir o episódio", "error");
       }
     });
   }

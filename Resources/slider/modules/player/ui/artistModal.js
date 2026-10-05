@@ -380,7 +380,7 @@ export function createArtistModal() {
   const saveToPlaylistBtn = document.createElement("div");
   saveToPlaylistBtn.className = "modal-save-to-playlist-btn";
   saveToPlaylistBtn.innerHTML = '<i class="fas fa-save"></i>';
-  saveToPlaylistBtn.title = config.languageLabels.saveToPlaylist || "Playlist'e kaydet";
+  saveToPlaylistBtn.title = config.languageLabels.saveToPlaylist || "Salvar na playlist";
   saveToPlaylistBtn.onclick = showSaveToPlaylistModal;
 
   const showStatsBtn = document.createElement("div");

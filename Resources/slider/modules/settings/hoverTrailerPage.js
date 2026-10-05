@@ -9,10 +9,10 @@ export function createHoverTrailerPanel(config, labels) {
   panel.id = 'hover-panel';
   panel.className = 'settings-panel';
 
-  const section = createSection(labels.hoverTrailer || 'HoverTrailer Ayarları');
+  const section = createSection(labels.hoverTrailer || 'Configurações de Reprodução ao Passar o Mouse');
   const allPreviewModalCheckbox = createCheckbox(
     'allPreviewModal',
-    labels.allPreviewModal || 'Modalı Jellyfin geneline uygula',
+    labels.allPreviewModal || 'Ativar prévia em todo o Jellyfin',
     config.allPreviewModal
   );
   section.appendChild(allPreviewModalCheckbox);
@@ -23,12 +23,12 @@ export function createHoverTrailerPanel(config, labels) {
 
   const title = document.createElement('div');
   title.className = 'field-label';
-  title.textContent = (labels.globalPreviewMode || 'Global hover tipi');
+  title.textContent = (labels.globalPreviewMode || 'Tipo de prévia global');
   modeWrap.appendChild(title);
 
   const modes = [
-    { val: 'modal',      text: (labels.globalPreviewModeModal || 'HoverTrailer')},
-    { val: 'studioMini', text: (labels.globalPreviewModeStudio || 'StudioHubs Mini') }
+    { val: 'modal',      text: (labels.globalPreviewModeModal || 'Modal de Vídeo (Hover)')},
+    { val: 'studioMini', text: (labels.globalPreviewModeStudio || 'Miniatura StudioHubs') }
   ];
   const current = config.globalPreviewMode || 'modal';
 
@@ -54,7 +54,7 @@ export function createHoverTrailerPanel(config, labels) {
 
   const studioMiniTrailerPopover = createCheckbox(
     'studioMiniTrailerPopover',
-    (labels.studioMiniTrailerPopover || 'Fragman popover etkin'),
+    (labels.studioMiniTrailerPopover || 'Ativar popover de trailer'),
     !!config.studioMiniTrailerPopover
   );
   studioMiniTrailerPopover.style.margin = '8px 0';

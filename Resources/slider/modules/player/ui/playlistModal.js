@@ -256,7 +256,7 @@ async function showSaveModal() {
   const selectedOnlyLabel = document.createElement("label");
   selectedOnlyLabel.htmlFor = "playlist-save-selected-only";
   selectedOnlyLabel.textContent = saveSelected
-    ? `${config.languageLabels.saveSelected || "Seçilenleri kaydet"} (${selectedCount})`
+    ? `${config.languageLabels.saveSelected || "Salvar selecionados"} (${selectedCount})`
     : config.languageLabels.noSelection || "Hiç parça seçilmediii";
   selectedOnlyContainer.appendChild(selectedOnlyCheckbox);
   selectedOnlyContainer.appendChild(selectedOnlyLabel);

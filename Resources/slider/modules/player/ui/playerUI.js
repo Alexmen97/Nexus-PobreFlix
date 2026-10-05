@@ -152,7 +152,7 @@ export function createModernPlayerUI() {
 
   if (config.nextTracksSource === 'playlist') {
     nextTracksName.textContent = musicPlayerState.userSettings.shuffle
-      ? config.languageLabels.rastgele || "Rastgele"
+      ? config.languageLabels.rastgele || "Aleatório"
       : config.languageLabels.sirada || "Sıradakiler";
   } else {
     nextTracksName.textContent = getSourceLabel(config.nextTracksSource);
@@ -198,7 +198,7 @@ export function createModernPlayerUI() {
     {
       className: "settingsLink",
       iconClass: "fas fa-cog",
-      title: config.languageLabels.ayarlar || "Ayarlar",
+      title: config.languageLabels.ayarlar || "Configurações",
       onClick: async (e) => {
         e.preventDefault();
         await openSettings("music");
@@ -569,7 +569,7 @@ export async function updateNextTracks() {
   if (config.nextTracksSource === 'playlist') {
     uiElements.name.style.cursor = 'pointer';
     uiElements.name.textContent = userSettings.shuffle
-      ? config.languageLabels.rastgele || "Rastgele"
+      ? config.languageLabels.rastgele || "Aleatório"
       : config.languageLabels.sirada || "Sıradakiler";
   } else {
     return showTopTracksInMainView(config.nextTracksSource);
@@ -1473,7 +1473,7 @@ function getNextTrackSource(currentSource) {
     { value: 'latest', label: config.languageLabels.latestTracks || 'Son Eklenenler' },
     { value: 'favorites', label: config.languageLabels.favorites || 'Favorilerim' },
     { value: 'playlist', label: musicPlayerState.userSettings.shuffle
-        ? config.languageLabels.rastgele || "Rastgele"
+        ? config.languageLabels.rastgele || "Aleatório"
         : config.languageLabels.sirada || "Sıradakiler" }
   ];
 
@@ -1547,7 +1547,7 @@ function getSourceLabel(source) {
     'latest': config.languageLabels.latestTracks || "Son Eklenenler",
     'favorites': config.languageLabels.favorites || "Favorilerim",
     'playlist': musicPlayerState.userSettings.shuffle
-      ? config.languageLabels.rastgele || "Rastgele"
+      ? config.languageLabels.rastgele || "Aleatório"
       : config.languageLabels.sirada || "Sıradakiler"
   };
   return labels[source] || source;

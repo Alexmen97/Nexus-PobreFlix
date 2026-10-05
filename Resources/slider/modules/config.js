@@ -642,7 +642,19 @@ export function getConfig() {
   const enableTrailerThenVideo = previewPlaybackMode === 'trailerThenVideo';
   try { localStorage.removeItem('enableHls'); } catch {}
   const resolvedConfig = {
-    customQueryString: localStorage.getItem('customQueryString') || 'IncludeItemTypes=Movie,Series&Recursive=true&hasOverview=true&imageTypes=Logo,Backdrop&sortBy=DateCreated&sortOrder=Descending',
+    customQueryString: (() => {
+      const stored = localStorage.getItem('customQueryString');
+      if (stored && (stored.includes('hasOverview=true') || stored.includes('imageTypes=Logo,Backdrop'))) {
+        const cleaned = stored
+          .replace(/&?hasOverview=true/gi, '')
+          .replace(/&?imageTypes=Logo,Backdrop/gi, '')
+          .replace(/^[?&]+/, '')
+          .replace(/&&+/g, '&');
+        try { localStorage.setItem('customQueryString', cleaned); } catch {}
+        return cleaned || 'IncludeItemTypes=Movie,Series&Recursive=true&sortBy=DateCreated&sortOrder=Descending';
+      }
+      return stored || 'IncludeItemTypes=Movie,Series&Recursive=true&sortBy=DateCreated&sortOrder=Descending';
+    })(),
     sortingKeywords: (() => {
       const raw = localStorage.getItem('sortingKeywords');
       try {
