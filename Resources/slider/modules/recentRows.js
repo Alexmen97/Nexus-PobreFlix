@@ -1530,7 +1530,13 @@ async function resolveDefaultPages(userId) {
       });
     STATE.otherLibs = other;
 
-    const tvLib = tvLibs[0] || null;
+    const preferredTvLib =
+      tvLibs.find(x => /^(s[eé]ries|series|tv\s*shows?|programas)/i.test((x.Name || "").trim())) ||
+      tvLibs.find(x => !/(anime|desenho|cartoon|anima[çc][ãa]o)/i.test((x.Name || "").trim())) ||
+      tvLibs[0] ||
+      null;
+
+    const tvLib = preferredTvLib;
     const movLib = movieLibs[0] || null;
     const musicLib = items.find(x => (x?.CollectionType === "music")) || null;
 
@@ -2516,19 +2522,26 @@ function getTopMovieParentIds() {
 }
 
 function getTopSeriesParentIds() {
+  const preferred = (STATE.tvLibs || []).find(x => /^(s[eé]ries|series|tv\s*shows?|programas)/i.test((x.Name || "").trim()))
+    || (STATE.tvLibs || []).find(x => !/(anime|desenho|cartoon|anima[çc][ãa]o)/i.test((x.Name || "").trim()))
+    || (STATE.tvLibs || [])[0];
+  const preferredIds = preferred?.Id ? [preferred.Id] : [];
   return resolveScopedParentIds(
-    (STATE.tvLibs || []).map((lib) => lib.Id),
+    preferredIds.length ? preferredIds : (STATE.tvLibs || []).map((lib) => lib.Id),
     resolveTvLibSelection("recentSeries")
   );
 }
 
 function getTvHashFallback() {
-  return (
-    config.latestSeriesHash ||
-    config.resumeSeriesHash ||
-    STATE.defaultTvHash ||
-    DEFAULT_TV_PAGE
-  );
+  if (config.latestSeriesHash) return config.latestSeriesHash;
+  if (config.resumeSeriesHash) return config.resumeSeriesHash;
+  const preferred = (STATE.tvLibs || []).find(x => /^(s[eé]ries|series|tv\s*shows?|programas)/i.test((x.Name || "").trim()))
+    || (STATE.tvLibs || []).find(x => !/(anime|desenho|cartoon|anima[çc][ãa]o)/i.test((x.Name || "").trim()))
+    || (STATE.tvLibs || [])[0];
+  if (preferred?.Id) {
+    return `#/tv?topParentId=${encodeURIComponent(preferred.Id)}&collectionType=tvshows&tab=1`;
+  }
+  return STATE.defaultTvHash || DEFAULT_TV_PAGE;
 }
 
 function getMoviesHashFallback() {
@@ -4494,7 +4507,7 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
     const topSeriesParentIds = getTopSeriesParentIds();
     const topSeriesMetaType = buildTopRowMetaType("Series", topSeriesParentIds);
     pushPlan(top10SeriesPlans, () => buildManagedSection({
-      titleText: config.languageLabels.top10Series || "Top 10 Diziler",
+      titleText: config.languageLabels.top10Series || "Top 10 Séries",
       badgeType: "series",
       heroLabel: "",
       cardCount: TOP10_ROW_CARD_COUNT,
@@ -4521,7 +4534,7 @@ async function initAndRender({ sectionKey = "recentRows", mountState = null } = 
     const topMovieParentIds = getTopMovieParentIds();
     const topMovieMetaType = buildTopRowMetaType("Movie", topMovieParentIds);
     pushPlan(top10MoviePlans, () => buildManagedSection({
-      titleText: config.languageLabels.top10Movies || "Top 10 Filmler",
+      titleText: config.languageLabels.top10Movies || "Top 10 Filmes",
       badgeType: "movie",
       heroLabel: "",
       cardCount: TOP10_ROW_CARD_COUNT,

@@ -54,20 +54,10 @@ if (typeof document !== 'undefined') {
   }, true);
 }
 
-function injectGamepadPrompts() {
-  if (typeof document === 'undefined' || document.getElementById("jms-gamepad-footer")) return;
-  const footer = document.createElement("div");
-  footer.id = "jms-gamepad-footer";
-  footer.innerHTML = `
-    <div class="jms-footer-content">
-      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-a">A</span> Selecionar</span>
-      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-b">B</span> Voltar</span>
-      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-y">Y</span> Menu</span>
-      <span class="jms-footer-item"><span class="jms-gamepad-prompt btn-lb-rb">LB/RB</span> Mudar Banner</span>
-    </div>
-  `;
-  document.body.appendChild(footer);
-  console.log("[Nexus Gamepad] Prompts footer bar injected.");
+function removeGamepadPrompts() {
+  if (typeof document === 'undefined') return;
+  const footer = document.getElementById("jms-gamepad-footer");
+  if (footer) footer.remove();
 }
 
 function loadGamepadCSS() {
@@ -96,11 +86,11 @@ function initGamepadSupport() {
 
   loadGamepadCSS();
   
-  // Garantir a injeção do rodapé de atalhos visuais
+  // Garantir remoção do rodapé de atalhos visuais indesejado
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", injectGamepadPrompts);
+    document.addEventListener("DOMContentLoaded", removeGamepadPrompts);
   } else {
-    injectGamepadPrompts();
+    removeGamepadPrompts();
   }
 
   // Alternar modo controle/mouse dinamicamente com base em atividade física
@@ -114,12 +104,6 @@ function initGamepadSupport() {
     }
     lastMouseX = e.screenX;
     lastMouseY = e.screenY;
-  });
-
-  window.addEventListener("keydown", () => {
-    if (!document.body.classList.contains("jms-gamepad-mode")) {
-      document.body.classList.add("jms-gamepad-mode");
-    }
   });
 
   window.addEventListener("gamepadconnected", (e) => {

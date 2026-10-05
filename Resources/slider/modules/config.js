@@ -510,7 +510,7 @@ export function getConfig() {
         else if (legacy === 'false') fallback = 'video';
       }
 
-      const resolved = fallback || 'video';
+      const resolved = fallback || 'none';
       localStorage.setItem('previewPlaybackMode', resolved);
       return resolved;
     } catch {
@@ -799,8 +799,8 @@ export function getConfig() {
     autoRefreshAvatar: localStorage.getItem('autoRefreshAvatar') !== 'false',
     avatarRefreshTime: parseInt(localStorage.getItem('avatarRefreshTime'), 10) || 10,
     randomDicebearAvatar: localStorage.getItem('randomDicebearAvatar') !== 'false',
-    previewModal: localStorage.getItem('previewModal') !== 'false',
-    allPreviewModal: localStorage.getItem('allPreviewModal') !== 'false',
+    previewModal: localStorage.getItem('previewModal') === 'true',
+    allPreviewModal: localStorage.getItem('allPreviewModal') === 'true',
     globalPreviewMode: localStorage.getItem('globalPreviewMode') || 'modal',
     dotPreviewPlaybackMode: readDotPreviewMode(),
     preferTrailersInPreviewModal: localStorage.getItem('preferTrailersInPreviewModal') !== 'false',

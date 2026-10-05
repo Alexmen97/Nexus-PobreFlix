@@ -1,3 +1,30 @@
+# 📦 Nexus PobreFlix Plugin — Build v1.0.0.4 (Jellyfin 12.1 & .NET 10)
+
+Esta atualização oficial v1.0.0.4 resolve o problema de instalação via repositório no Jellyfin, restaura a exibição da logo Nexus PobreFlix no cabeçalho superior esquerdo com link dinâmico, elimina os prompts flutuantes de gamepad ativados indevidamente pelo teclado, corrige a navegação de "Top Séries" para a biblioteca correta, desativa a prévia automática de vídeo no hover e consolida o pacote com um único arquivo CSS oficial.
+
+---
+
+### ⏱️ Ajustes e Novidades desta Versão (v1.0.0.4 - 05/10/2026):
+* **Correção Definitiva da Instalação via Repositório no Jellyfin**: Alinhamento estrito da URL do repositório no `manifest.json` com a tag `v1.0.0.4` (evitando erro 404 retornado pelo GitHub) e empacotamento higienizado com arquivo CSS único.
+* **Remoção Total dos Prompts e Rodapé Flutuante de Controle (`#jms-gamepad-footer`)**: O rodapé flutuante com prompts de botões (A, B, Y, LB/RB) foi completamente desativado e removido do fluxo visual, não disparando mais sob atalhos normais de digitação ou navegação (`Ctrl+Shift`, `Win+Shift`).
+* **Restauração Dinâmica da Logo Nexus PobreFlix no Cabeçalho**: Injetado elemento de logo oficial no topo esquerdo (`.skinHeader .headerLeft`) ao lado do botão hambúrguer com clique funcional redirecionando para a tela inicial (`#/home`).
+* **Correção da Rota de "Top Séries"**: Implementada priorização inteligente na resolução da biblioteca de séries (filtrando e priorizando bibliotecas reais de séries como "Séries", "Series" ou "TV Shows" em vez de redirecionar incorretamente para "Animes" ou "Desenhos").
+* **Desativação Padrão de Prévia de Vídeo (Hover)**: A reprodução automática de vídeos ao passar o mouse sobre cards e slider foi desligada por padrão nas configurações (`none`), mantendo a navegação limpa, silenciosa e sem janelas modais indesejadas.
+* **Ergonomia e Acessibilidade do Botão Hambúrguer (`≡`)**: Ampliada a área de toque e clique para 44x44px com espaçamento à esquerda de 10px (desktop) e 6px (mobile/TV), tornando o botão fácil de acionar em telas touch e televisores.
+* **Purgação Completa de Fallbacks Residuais em Turco**: Ajustados fallbacks em `recentRows.js` e `genreExplorer.js` para garantir 100% de localização em PT-BR.
+* **Pacote de Distribuição Consolidado com CSS Único**: O arquivo `.zip` da release agora contém estritamente `Jellyfin.Plugin.JMSFusion.dll`, `meta.json` e a folha de estilos consolidada `PobreFlix - v1.css`.
+
+---
+
+### 🛠️ Detalhes do Build:
+- **Arquivo**: `NexusPobreFlix-1.0.0.4.zip`
+- **Versão**: `1.0.0.4`
+- **MD5**: `90f201bc18041b2a1f2a76e15d5e3dd9`
+- **Status**: Pronta para Publicação
+- **Data**: 05/10/2026
+
+---
+
 # 📦 Nexus PobreFlix Plugin — Build v1.0.0.3 (Jellyfin 12.1 & .NET 10)
 
 Esta build oficial traz a resiliência total do slider para bibliotecas recém-criadas ou com poucas mídias (como acervos com 1 única série), eliminação definitiva de todos os termos em turco (100% PT-BR) e novo empacotamento para distribuição.

@@ -26,3 +26,73 @@ body, .itemName, .parentName, .cardText, .baslik, .monwui-baslik, .monwui-slogan
 }
 
 /* end Ggrbz css editor */
+
+/* --- Nexus PobreFlix v1.0.0.4 - Header Logo & Hamburger Button Fixes --- */
+.skinHeader .headerLeft {
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 10px !important;
+}
+
+.headerButton.headerButton-bars,
+.headerButton.mainDrawerButton {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin-left: 4px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    cursor: pointer !important;
+    transition: background 0.2s ease, transform 0.2s ease !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 100 !important;
+}
+
+.headerButton.headerButton-bars:hover,
+.headerButton.mainDrawerButton:hover {
+    background: rgba(122, 92, 255, 0.25) !important;
+    transform: scale(1.05) !important;
+}
+
+.nexus-header-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    margin-left: 10px !important;
+    z-index: 100 !important;
+    user-select: none !important;
+    text-decoration: none !important;
+}
+
+.nexus-header-logo img {
+    height: 32px !important;
+    max-height: 36px !important;
+    width: auto !important;
+    object-fit: contain !important;
+}
+
+#jms-gamepad-footer,
+body.jms-gamepad-mode #jms-gamepad-footer {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+@media (max-width: 768px) {
+    .skinHeader .headerLeft {
+        padding-left: 6px !important;
+    }
+    .nexus-header-logo {
+        margin-left: 6px !important;
+    }
+    .nexus-header-logo img {
+        height: 26px !important;
+        max-height: 28px !important;
+    }
+}

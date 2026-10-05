@@ -347,10 +347,10 @@ export function openGenreExplorer(genre) {
     <div class="genre-explorer" role="dialog" aria-modal="true" aria-label="Genre Explorer">
       <div class="ge-header">
         <div class="ge-title">
-          ${escapeHtml(__genre)} • ${(getConfig()?.languageLabels?.all) || "Tümü"}
+          ${escapeHtml(__genre)} • ${(getConfig()?.languageLabels?.all) || "Tudo"}
         </div>
         <div class="ge-actions">
-          <button class="ge-close" aria-label="${(getConfig()?.languageLabels?.close) || "Kapat"}">✕</button>
+          <button class="ge-close" aria-label="${(getConfig()?.languageLabels?.close) || "Fechar"}">✕</button>
         </div>
       </div>
       <div class="ge-content">
@@ -503,10 +503,10 @@ export function openDirectorExplorer(person) {
     <div class="genre-explorer" role="dialog" aria-modal="true" aria-label="Director Explorer">
       <div class="ge-header">
         <div class="ge-title">
-          ${escapeHtml(__d_person.Name)} • ${(getConfig()?.languageLabels?.all) || "Tümü"}
+          ${escapeHtml(__d_person.Name)} • ${(getConfig()?.languageLabels?.all) || "Tudo"}
         </div>
         <div class="ge-actions">
-          <button class="ge-close" aria-label="${(getConfig()?.languageLabels?.close) || "Kapat"}">✕</button>
+          <button class="ge-close" aria-label="${(getConfig()?.languageLabels?.close) || "Fechar"}">✕</button>
         </div>
       </div>
       <div class="ge-content">
@@ -973,10 +973,10 @@ export function openPersonalExplorer() {
     <div class="genre-explorer" role="dialog" aria-modal="true" aria-label="Personal Explorer">
       <div class="ge-header">
         <div class="ge-title">
-          ${(getConfig()?.languageLabels?.personalRecommendations) || "Sana Özel Öneriler"} • ${(getConfig()?.languageLabels?.all) || "Tümü"}
+          ${(getConfig()?.languageLabels?.personalRecommendations) || "Recomendações Personalizadas"} • ${(getConfig()?.languageLabels?.all) || "Tudo"}
         </div>
         <div class="ge-actions">
-          <button class="ge-close" aria-label="${(getConfig()?.languageLabels?.close) || "Kapat"}">✕</button>
+          <button class="ge-close" aria-label="${(getConfig()?.languageLabels?.close) || "Fechar"}">✕</button>
         </div>
       </div>
       <div class="ge-content">
