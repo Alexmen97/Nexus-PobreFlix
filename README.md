@@ -1,3 +1,33 @@
+# Nexus PobreFlix — versione italiana
+
+Fork italiano mantenuto da Alexmen97, basato su [ONeithan/Nexus-PobreFlix](https://github.com/ONeithan/Nexus-PobreFlix) e sul progetto JMSFusion di G-Grbz.
+
+## Installazione italiana (1.0.0.5)
+
+Richiede Jellyfin 12.x, come la versione originale 1.0.0.4 (.NET 10).
+
+1. Nel pannello Jellyfin apri **Plugin → Repository → Aggiungi**.
+2. Usa `https://raw.githubusercontent.com/Alexmen97/Nexus-PobreFlix/main/manifest.json`.
+3. Installa Nexus PobreFlix dal catalogo, riavvia Jellyfin e svuota la cache del browser.
+4. Nelle impostazioni del plugin scegli **Italiano** oppure **Automatico** con il browser in italiano. Se un profilo ha già selezionato il portoghese, cambia la preferenza; verifica anche eventuali impostazioni globali forzate dall'amministratore.
+
+Per l'installazione manuale scarica [NexusPobreFlix-1.0.0.5.zip](https://github.com/Alexmen97/Nexus-PobreFlix/releases/download/v1.0.0.5/NexusPobreFlix-1.0.0.5.zip), estrailo nella cartella dei plugin e riavvia Jellyfin.
+
+La traduzione italiana proviene da `Resources/slider/language/ita.js` del [progetto originale](https://github.com/G-grbz/Jellyfin-MonWUI-Plugin) ed è stata integrata con le chiavi specifiche di questo fork. La lingua del client Jellyfin si configura separatamente nelle preferenze di Jellyfin.
+
+## Compilazione
+
+Con .NET SDK 10 e Python 3 installati:
+
+```sh
+node --test tests/italian-language.test.mjs
+bash scripts/build-release.sh
+```
+
+Il pacchetto viene generato in `dist_release/` e il checksum MD5 del catalogo viene aggiornato in `manifest.json`. Il test copre traduzioni, segnaposto, lingua automatica, preferenze esplicite e locale dei trailer. La compilazione non sostituisce una prova su un server Jellyfin attivo.
+
+---
+
 > [!NOTE]
 > **Versão em Português disponível no final do documento.** / **Portuguese version available at the end of this document.**
 > Para ler em português, role até o final da página ou clique [aqui](#nexus-pobreflix-plugin-jellyfin-edition-portugues).
@@ -90,7 +120,7 @@ To receive automatic plugin updates directly in your Jellyfin dashboard:
 3. Add the following link to the **URL** field:
 
 ```text
-https://raw.githubusercontent.com/ONeithan/Nexus-PobreFlix/main/manifest.json
+https://raw.githubusercontent.com/Alexmen97/Nexus-PobreFlix/main/manifest.json
 ```
 
 4. Set the name to `Nexus PobreFlix Repository`, save, and install the plugin from the **Catalog**.
@@ -237,7 +267,7 @@ Para receber atualizações automáticas do plugin diretamente no seu painel do 
 3. Adicione o seguinte link no campo **URL**:
 
 ```text
-https://raw.githubusercontent.com/ONeithan/Nexus-PobreFlix/main/manifest.json
+https://raw.githubusercontent.com/Alexmen97/Nexus-PobreFlix/main/manifest.json
 ```
 
 4. Defina o nome como `Repositório Nexus PobreFlix`, salve e faça a instalação do plugin em **Catálogo**.

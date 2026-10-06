@@ -793,6 +793,7 @@ public sealed class CinemaPreRollCacheService
             "fr" or "fre" or "fra" => "fr-FR",
             "ru" or "rus" => "ru-RU",
             "es" or "spa" => "es-ES",
+            "it" or "ita" or "it-it" => "it-IT",
             _ => "tr-TR"
         };
     }

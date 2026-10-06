@@ -5,6 +5,7 @@ import { languageLabels as fraLabels } from './fre.js';
 import { languageLabels as rusLabels } from './rus.js';
 import { languageLabels as spaLabels } from './spa.js';
 import { languageLabels as porLabels } from './por.js';
+import { languageLabels as itaLabels } from './ita.js';
 
 export const AUTO_LANGUAGE_CHANGE_EVENT = 'jms:auto-language-changed';
 
@@ -27,6 +28,7 @@ export function normalizeLanguageCode(lang) {
   if (raw === 'fre' || raw === 'fra' || base === 'fr') return 'fre';
   if (raw === 'rus' || base === 'ru') return 'rus';
   if (raw === 'spa' || base === 'es') return 'spa';
+  if (raw === 'ita' || base === 'it') return 'ita';
   if (raw === 'por' || base === 'pt') return 'por';
 
   return 'por';
@@ -43,6 +45,7 @@ export function getLanguageLabels(lang) {
     case 'fre': return fraLabels;
     case 'rus': return rusLabels;
     case 'spa': return spaLabels;
+    case 'ita': return itaLabels;
     case 'por': return porLabels;
     case 'tur': return turLabels;
     default:    return porLabels;
@@ -55,7 +58,8 @@ export function detectBrowserLanguage() {
     : [navigator.language || navigator.userLanguage || ''];
   for (const raw of candidates) {
     const code = (raw || '').toLowerCase();
-    const base = code.split('-')[0];
+    const base = code.split(/[-_]/)[0];
+    if (base === 'it' || code === 'ita') return 'ita';
     if (code.startsWith('tr') || base === 'tr') return 'tur';
     if (code.startsWith('en') || base === 'en') return 'eng';
     if (code.startsWith('de') || base === 'de') return 'deu';
@@ -73,7 +77,7 @@ export function getStoredLanguagePreference() {
 
 export function getEffectiveLanguage() {
   const pref = getStoredLanguagePreference();
-  if (!pref || pref === 'auto') return 'por';
+  if (!pref || pref === 'auto') return detectBrowserLanguage();
   return normalizeLanguageCode(pref);
 }
 

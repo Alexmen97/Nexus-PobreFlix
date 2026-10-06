@@ -174,6 +174,7 @@
       fre: "Francais",
       rus: "Русский",
       spa: "Espanol",
+      ita: "Italiano",
       por: "Português (Brasil)"
     };
     return map[code] || String(code || "").toUpperCase() || "Auto";

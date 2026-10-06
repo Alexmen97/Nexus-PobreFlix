@@ -2,12 +2,20 @@
   {
     "guid": "d9b7f2a1-3c4e-4f80-b6d2-9e1a5c0f8b34",
     "name": "Nexus PobreFlix",
-    "description": "A experiência visual definitiva e industrial para seu Jellyfin — 100% PT-BR e Tema Roxo Nexus. Fork de JMSFusion por ONeithan.",
-    "overview": "Motor visual premium com suporte nativo a PT-BR e identidade Nexus.",
-    "owner": "ONeithan",
+    "description": "Esperienza Nexus PobreFlix per Jellyfin con supporto italiano e tema viola Nexus.",
+    "overview": "Slider, player e impostazioni in italiano, con rilevamento automatico della lingua.",
+    "owner": "Alexmen97",
     "category": "General",
-    "imageUrl": "https://raw.githubusercontent.com/ONeithan/Nexus-PobreFlix/main/img/nexus-pobreflix-logo.png",
+    "imageUrl": "https://raw.githubusercontent.com/Alexmen97/Nexus-PobreFlix/main/img/nexus-pobreflix-logo.png",
     "versions": [
+      {
+        "version": "1.0.0.5",
+        "changelog": "Aggiunta la lingua italiana alle impostazioni, al player e ai dizionari del plugin. Ripristinata la lingua automatica del browser. Supporto it-IT per TMDb e trailer cinematografici.",
+        "targetAbi": "12.0.0.0",
+        "sourceUrl": "https://github.com/Alexmen97/Nexus-PobreFlix/releases/download/v1.0.0.5/NexusPobreFlix-1.0.0.5.zip",
+        "checksum": "3f5416cf63717a58b3a3bcd0ba16e80a",
+        "timestamp": "2026-10-06T12:33:57Z"
+      },
       {
         "version": "1.0.0.4",
         "changelog": "v1.0.0.4 - Correção da Instalação, Logo no Cabeçalho, Desativação de Prompts e Rotação Corrigida\n- Correção definitiva da instalação via repositório no Jellyfin (URL de release alinhada à tag v1.0.0.4 e pacote ZIP higienizado com CSS único).\n- Remoção completa de prompts de controle e rodapé flutuante (não surge mais com atalhos de teclado Ctrl+Shift ou Win+Shift).\n- Restauração dinâmica da logo Nexus PobreFlix no cabeçalho superior esquerdo ao lado do menu lateral, com redirecionamento para Home (#/home).\n- Correção do atalho 'Top Séries' para priorizar bibliotecas reais de séries em vez de animes.\n- Desativação padrão de prévia de vídeos/trailers no hover para evitar reprodução indesejada.\n- Ampliação da área de toque e espaçamento do botão de menu hambúrguer para Smart TVs e celulares.\n- Purgação completa de termos residuais em turco nos módulos recentes (100% PT-BR).\n- Pacote de distribuição consolidado contendo exclusivamente a folha de estilo oficial PobreFlix - v1.css.",

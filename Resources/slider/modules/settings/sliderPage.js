@@ -60,6 +60,7 @@ export function createSliderPanel(config, labels) {
 
   const languages = [
     { value: 'auto', label: labels.optionAuto || '🌐 Otomatik (Tarayıcı dili)' },
+    { value: 'ita', label: labels.optionItalian || '🇮🇹 Italiano' },
     { value: 'por',  label: labels.optionPortuguese || '🇧🇷 Português (Brasil)' },
     { value: 'tur',  label: labels.optionTurkish || '🇹🇷 Türkçe' },
     { value: 'eng',  label: labels.optionEnglish || '🇬🇧 English' },
@@ -133,6 +134,7 @@ export function createSliderPanel(config, labels) {
     labels.tmdbReviewsLang || 'Yorum Dili',
     lsGet(LS_TMDB_LANG, 'pt-BR'),
     [
+      { value: 'it-IT', label: '🇮🇹 Italiano (it-IT)' },
       { value: 'pt-BR', label: '🇧🇷 Português (pt-BR)' },
       { value: 'tr-TR', label: '🇹🇷 Türkçe (tr-TR)' },
       { value: 'en-US', label: '🇺🇸 English (en-US)' },

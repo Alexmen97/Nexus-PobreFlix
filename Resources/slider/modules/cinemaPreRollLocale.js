@@ -7,6 +7,7 @@ export function normalizeCinemaPreRollLanguage(raw) {
   const value = String(raw || "").trim().replace("_", "-");
   if (/^[a-z]{2}-[A-Z]{2}$/.test(value)) return value;
   const lower = value.toLowerCase();
+  if (["it", "ita", "it-it", "ita-it"].includes(lower)) return "it-IT";
   if (lower === "pt" || lower === "por" || lower === "pt-br" || lower === "por-br") return "pt-BR";
   if (lower === "tr" || lower === "tur") return "tr-TR";
   if (lower === "en" || lower === "eng") return "en-US";
