@@ -12,6 +12,8 @@ output.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as archive:
     archive.write(root / 'bin/Release/net10.0/Jellyfin.Plugin.JMSFusion.dll', 'Jellyfin.Plugin.JMSFusion.dll')
     archive.write(root / 'meta.json', 'meta.json')
+    archive.write(root / 'LICENSE', 'LICENSE')
+    archive.write(root / 'THIRD_PARTY_LICENSE_JMSFusion', 'THIRD_PARTY_LICENSE_JMSFusion')
     archive.write(root / 'img/nexus-pobreflix-logo.png', 'icon.png')
 manifest_path = root / 'manifest.json'
 manifest = json.loads(manifest_path.read_text())
